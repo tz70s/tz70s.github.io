@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+	<meta name="generator" content="Hugo 0.54.0" />
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title> tz70s &middot; tz70s </title>
+
+
+<link rel="stylesheet" href="https://tz70s.github.io/css/slim.css">
+<link rel="stylesheet" href="https://tz70s.github.io/css/github-gist.css">
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Source+Code+Pro' rel='stylesheet'
+  type='text/css'>
+
+
+<link href="https://tz70s.github.io/index.xml" rel="alternate" type="application/rss+xml" title="tz70s" />
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+  <div class="site-title"><a href="https://tz70s.github.io/">tz70s</a>
+     <a class="sub-site-title" href="https://github.com/tz70s">Github</a>
+    
+     <a class="sub-site-title" href="https://twitter.com/tz70s">Twitter</a>
+    
+    
+  </div>
+  <p class="site-tagline">Hacking distributed systems.</p>
+</div>
+    <div class="content">
+      <div class="posts">
+         
+        <div class="post">
+          <h2 class="post-title"><a href="https://tz70s.github.io/posts/reactive-programming/">Reactive Programming - Revisiting Abstraction</a></h2>
+          <span class="post-date">Feb 12, 2019</span>
+          
+          
+          <div class="summary">
+            Reactive Programming 在現代基於事件驅動程式設計及架構來講，根本上來講以去除副作用 (side-effect) 的 declarative 方式來建構事件的轉換及組合，可以有效降低在 concurrency 下的錯誤和增強組合性 (composability)。這衍伸在工業界如 ReactiveX (RxJava, RxJS, etc)、Reactive Stream Specification 或是如 Future 的建構都有其影子。
+然而，他的定義從各個出處仍十分模糊且難以讓人理解，例如：
+ Reactive Programming is a programming with asynchronous data stream. [1] Reactive programming is a declarative programming paradigm concerned with data streams and the propagation of change. [2] Reactive programming is a programming paradigm that is built around the notion of continuous time-varying values and propagation of change. [3]  在加上網路上基於各種感悟和體會的文章衍伸的不嚴謹考究，讓 Reactive Programming 逐漸成為 buzzword。
+            <a class="read-more" href="/posts/reactive-programming/">&hellip;</a>
+          </div>
+          
+        </div>
+        
+        <div class="post">
+          <h2 class="post-title"><a href="https://tz70s.github.io/posts/mbrace/">Note - MBrace: Cloud Computing with Monads</a></h2>
+          <span class="post-date">Sep 7, 2018</span>
+          
+          
+          <div class="summary">
+            Programming large-scale distributed systems is difficult and requires expert programmers orchestrating concurrent processes across various physical places (nodes), and potentially required to be scalable, resilient, etc. Choosing a well abstraction framework can reduce such efforts and make system performant and resilient.
+For example,
+ MapReduce Akka CloudHaskell[1] and HdpH[2]  However, problematics on MapReduce model: less expressive and not suitable for streaming, iterative and incremental algorithms. (NOTE: the motivation is less persuasive, IMHO)
+            <a class="read-more" href="/posts/mbrace/">&hellip;</a>
+          </div>
+          
+        </div>
+        
+        <div class="post">
+          <h2 class="post-title"><a href="https://tz70s.github.io/posts/gsoc-2018/">Google Summer of Code</a></h2>
+          <span class="post-date">Aug 13, 2018</span>
+          
+          
+          <div class="summary">
+            This is a post to identify what I&rsquo;ve done in Google Summer of Code 2018. It&rsquo;s summarized in brief and non-technical, you can refer to more detail in the following links.
+Links to what I&rsquo;ve done:
+ In-detail post about OpenWhisk performance improvement experiment. Main repo/branch for experiment. Invoker agent repo/branch for experiment. Extended multi-actions wrk peformance bench. Commits on OpenWhisk main repo during GSoC progress.  The Journey At first, my original GSoC proposal: OpenWhisk performance improvement - work stealing, priority-based scheduling on load balancer and direct connection for streaming capabilities.
+            <a class="read-more" href="/posts/gsoc-2018/">&hellip;</a>
+          </div>
+          
+        </div>
+        
+        <div class="post">
+          <h2 class="post-title"><a href="https://tz70s.github.io/posts/openwhisk-performance-improvement/">OpenWhisk Performance Improvement</a></h2>
+          <span class="post-date">Jul 24, 2018</span>
+          
+          
+          <div class="summary">
+            OpenWhisk community is nowadays getting more consistent on the new design of architecture for performance improvement. The future architecture of OpenWhisk requires large internal breaking changes. To fill the gap from idea into smooth migration, there might be helpful if a mid ground exist to clear more issues. Hence, I&rsquo;ve worked on prototyping performance improvement in real, but not that comprehensive though. However, hope this prototype hold a place for deeper discussion and discover all issues might meet in the future.
+            <a class="read-more" href="/posts/openwhisk-performance-improvement/">&hellip;</a>
+          </div>
+          
+        </div>
+        
+        <div class="post">
+          <h2 class="post-title"><a href="https://tz70s.github.io/posts/distributed-systems-for-fun-and-profit/">Distributed Systems for Fun and Profit</a></h2>
+          <span class="post-date">Jun 7, 2017</span>
+          
+          
+          <div class="summary">
+            Distributed Systems for Fun and Profit 是本分散式系統的書，短小精悍目標是涵蓋所有分散式系統的概念和點出一些關鍵的演算法，然後這是我的筆記。
+Basics 基本電腦系統可以分為兩種 task 需要去完成
+ storage computation  分散式系統的目標是要解決當我們系統 scale up 去處理這些 task ，並且而後發生的種種 trade-off。
+Scalability  is the ability of a system, network, or process, to handle a growing amount of work in a capable manner or its ability to be enlarged to accommodate that growth
+ Growth 可以從很多面向來看，但最重要相關的觀點用以來量測就是performance and availability
+Performance (and latency)  is characterized by the amount of useful work accomplished by a computer system compared to the time and resources used
+            <a class="read-more" href="/posts/distributed-systems-for-fun-and-profit/">&hellip;</a>
+          </div>
+          
+        </div>
+        
+      </div>
+      <div class="pagination">
+   
+</div>
+    </div>
+    <div class="footer">
+  
+  <p>me :: Tzu-Chiao Yeh @tz70s => su3g4284zo6y7@gmail.com</p>
+  
+</div>
+
+  </div>
+  <script src="https://tz70s.github.io/js/slim.js"></script>
+  
+
+</body>
+
+</html>

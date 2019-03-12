@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>tz70s</title>
+    <link>https://tz70s.github.io/</link>
+    <description>Recent content on tz70s</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Mon, 18 Feb 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://tz70s.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Note on Algebraic Domain Modeling</title>
+      <link>https://tz70s.github.io/drafts/algebraic-domain-modeling/</link>
+      <pubDate>Mon, 18 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://tz70s.github.io/drafts/algebraic-domain-modeling/</guid>
+      <description>Algebra? Algebraic 這個詞以中譯來講就是&amp;rdquo;代數(的)&amp;ldquo;，以前一直沒有認真理解這個形容詞帶給 application/business level 的關聯性以及跟一些 functional programming 裡設計的連貫性， 直到最近看了幾篇文章 [1][2] 和 haskell from the first principle 有點感悟所以在這紀錄一下。
+先從 ADT (algebraic data type) 開始，現在一些新興語言 (Rust, Kotlin, Swift) 都有將 ADT 內建在 language 中，很大原因都是為了導入 Option, Result (rust) 這些類型來解決工業上的痛點。 然而，ADT 除了與 ADT (abstract data type) 不同、可以搭配 pattern matching 以外，到底代表什麼？
+Abstract algebra (抽象代數)，是在 generalize 一些代數上的數學關係，例如我們常見的數值運算 (1 + 1)，只是用符號來研讀而已，這在離散數學後面的章節有教裡面的一些部分。 而我們在這會看到的就是 algebraic structure，來看一下 wiki 上的定義：
+ In mathematics, and more specifically in abstract algebra, an algebraic structure on a set A (called carrier set or underlying set) is a collection of finitary operations on A; the set A with this structure is also called an algebra.</description>
+    </item>
+    
+    <item>
+      <title>Reactive Programming - Revisiting Abstraction</title>
+      <link>https://tz70s.github.io/posts/reactive-programming/</link>
+      <pubDate>Tue, 12 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://tz70s.github.io/posts/reactive-programming/</guid>
+      <description>Reactive Programming 在現代基於事件驅動程式設計及架構來講，根本上來講以去除副作用 (side-effect) 的 declarative 方式來建構事件的轉換及組合，可以有效降低在 concurrency 下的錯誤和增強組合性 (composability)。這衍伸在工業界如 ReactiveX (RxJava, RxJS, etc)、Reactive Stream Specification 或是如 Future 的建構都有其影子。
+然而，他的定義從各個出處仍十分模糊且難以讓人理解，例如：
+ Reactive Programming is a programming with asynchronous data stream. [1] Reactive programming is a declarative programming paradigm concerned with data streams and the propagation of change. [2] Reactive programming is a programming paradigm that is built around the notion of continuous time-varying values and propagation of change. [3]  在加上網路上基於各種感悟和體會的文章衍伸的不嚴謹考究，讓 Reactive Programming 逐漸成為 buzzword。</description>
+    </item>
+    
+    <item>
+      <title>Note - MBrace: Cloud Computing with Monads</title>
+      <link>https://tz70s.github.io/posts/mbrace/</link>
+      <pubDate>Fri, 07 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://tz70s.github.io/posts/mbrace/</guid>
+      <description>Programming large-scale distributed systems is difficult and requires expert programmers orchestrating concurrent processes across various physical places (nodes), and potentially required to be scalable, resilient, etc. Choosing a well abstraction framework can reduce such efforts and make system performant and resilient.
+For example,
+ MapReduce Akka CloudHaskell[1] and HdpH[2]  However, problematics on MapReduce model: less expressive and not suitable for streaming, iterative and incremental algorithms. (NOTE: the motivation is less persuasive, IMHO)</description>
+    </item>
+    
+    <item>
+      <title>Google Summer of Code</title>
+      <link>https://tz70s.github.io/posts/gsoc-2018/</link>
+      <pubDate>Mon, 13 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://tz70s.github.io/posts/gsoc-2018/</guid>
+      <description>This is a post to identify what I&amp;rsquo;ve done in Google Summer of Code 2018. It&amp;rsquo;s summarized in brief and non-technical, you can refer to more detail in the following links.
+Links to what I&amp;rsquo;ve done:
+ In-detail post about OpenWhisk performance improvement experiment. Main repo/branch for experiment. Invoker agent repo/branch for experiment. Extended multi-actions wrk peformance bench. Commits on OpenWhisk main repo during GSoC progress.  The Journey At first, my original GSoC proposal: OpenWhisk performance improvement - work stealing, priority-based scheduling on load balancer and direct connection for streaming capabilities.</description>
+    </item>
+    
+    <item>
+      <title>OpenWhisk Performance Improvement</title>
+      <link>https://tz70s.github.io/posts/openwhisk-performance-improvement/</link>
+      <pubDate>Tue, 24 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://tz70s.github.io/posts/openwhisk-performance-improvement/</guid>
+      <description>OpenWhisk community is nowadays getting more consistent on the new design of architecture for performance improvement. The future architecture of OpenWhisk requires large internal breaking changes. To fill the gap from idea into smooth migration, there might be helpful if a mid ground exist to clear more issues. Hence, I&amp;rsquo;ve worked on prototyping performance improvement in real, but not that comprehensive though. However, hope this prototype hold a place for deeper discussion and discover all issues might meet in the future.</description>
+    </item>
+    
+    <item>
+      <title>Distributed Systems for Fun and Profit</title>
+      <link>https://tz70s.github.io/posts/distributed-systems-for-fun-and-profit/</link>
+      <pubDate>Wed, 07 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://tz70s.github.io/posts/distributed-systems-for-fun-and-profit/</guid>
+      <description>Distributed Systems for Fun and Profit 是本分散式系統的書，短小精悍目標是涵蓋所有分散式系統的概念和點出一些關鍵的演算法，然後這是我的筆記。
+Basics 基本電腦系統可以分為兩種 task 需要去完成
+ storage computation  分散式系統的目標是要解決當我們系統 scale up 去處理這些 task ，並且而後發生的種種 trade-off。
+Scalability  is the ability of a system, network, or process, to handle a growing amount of work in a capable manner or its ability to be enlarged to accommodate that growth
+ Growth 可以從很多面向來看，但最重要相關的觀點用以來量測就是performance and availability
+Performance (and latency)  is characterized by the amount of useful work accomplished by a computer system compared to the time and resources used</description>
+    </item>
+    
+    <item>
+      <title>About me</title>
+      <link>https://tz70s.github.io/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://tz70s.github.io/about/</guid>
+      <description>Hacking distributed system.
+Interests  Distributed system. Distributed and concurrent programming models.  Skills  Programming Languages: Scala, Java, C/C++, Rust, Go, Javascript(Node).  Status Pursuing master degree in National Taiwan University; research topic on programming model and system runtime in Edge Computing.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title> Note - MBrace: Cloud Computing with Monads &middot; tz70s </title>
+
+
+<link rel="stylesheet" href="https://tz70s.github.io/css/slim.css">
+<link rel="stylesheet" href="https://tz70s.github.io/css/github-gist.css">
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Source+Code+Pro' rel='stylesheet'
+  type='text/css'>
+
+
+<link href="" rel="alternate" type="application/rss+xml" title="tz70s" />
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+  <div class="site-title"><a href="https://tz70s.github.io/">tz70s</a>
+     <a class="sub-site-title" href="https://github.com/tz70s">Github</a>
+    
+     <a class="sub-site-title" href="https://twitter.com/tz70s">Twitter</a>
+    
+    
+  </div>
+  <p class="site-tagline">Hacking distributed systems.</p>
+</div>
+    <div class="content">
+      <div class="posts">
+        <div class="post">
+          <h2 class="post-title"><a href="https://tz70s.github.io/posts/mbrace/">Note - MBrace: Cloud Computing with Monads</a></h2>
+          <span class="post-date">Sep 7, 2018 </span>
+          <div class="post-content">
+            
+
+<p>Programming large-scale distributed systems is difficult and requires expert programmers orchestrating concurrent processes across various physical places (nodes), and potentially required to be scalable, resilient, etc. Choosing a well abstraction framework can reduce such efforts and make system performant and resilient.</p>
+
+<p>For example,</p>
+
+<ol>
+<li>MapReduce</li>
+<li>Akka</li>
+<li>CloudHaskell<a href="https://www.microsoft.com/en-us/research/wp-content/uploads/2016/07/remote.pdf">[1]</a> and HdpH<a href="http://www.macs.hw.ac.uk/cs/techreps/docs/files/HW-MACS-TR-0091.pdf">[2]</a></li>
+</ol>
+
+<p>However, problematics on MapReduce model: less expressive and not suitable for streaming, iterative and incremental algorithms. (NOTE: the motivation is less persuasive, IMHO)</p>
+
+<h2 id="mbrace-programming-model-and-execution-framework-for-cloud">MBrace - programming model and execution framework for cloud</h2>
+
+<p>Features:</p>
+
+<ul>
+<li>Compositional and declarative approach to describing distributed computations, by <strong>monad</strong>.</li>
+</ul>
+
+<pre><code class="language-fsharp"># a fork-join pattern
+cloud {
+  let job1 = cloud { return 1 }
+  let job2 = cloud { return 2 }
+  let! [| result1 ; result2 |] =
+    Cloud.Parallel [| job1 ; job2 |]
+  return result1 + result2
+}
+</code></pre>
+
+<ul>
+<li>Scalable MBrace runtime that enables distributed abstract machine execution for cloud workflows (enable location transparency).</li>
+<li>Rich client tooling, cloud workflow libraries, REPL and IDE integration.</li>
+</ul>
+
+<h1 id="programming-model-cloud-workflows">Programming Model - Cloud Workflows</h1>
+
+<p>The programming model provides the ability to declare abstract and modal expressions in a fluent, integrated manner, to be subsequently executed in the cloud, powered by monad.</p>
+
+<h2 id="preliminary-f-async-workflows">Preliminary - F# Async Workflows</h2>
+
+<p>Asnychronous workflows avoid the need of explicit callbacks,</p>
+
+<pre><code class="language-fsharp">let download (url : Uri) = async {
+  let http = new System.Net.WebClient()
+  # The let! denotes the callback passed to the right-hand-side operation.
+  # let! : monadic bind, return : monadic unit
+  let! html = http.AsyncDownloadString(url)
+  return html.Split('\n')
+}
+</code></pre>
+
+<p>Composition,</p>
+
+<pre><code class="language-fsharp">let workflow = async {
+  let! results =
+    Async.Parallel
+      [
+        download &quot;http://www.google.com&quot;;
+        download &quot;http://www.facebook.com&quot;
+      ]
+  return Seq.concat results |&gt; Seq.length
+}
+</code></pre>
+
+<p>Async expressions have deferred execution semantics: evaluted by a scheduler that tranparently allocates pending jobs to the underlying .NET thread pool.</p>
+
+<h2 id="the-cloud-workflow-programming-model">The Cloud Workflow Programming Model</h2>
+
+<p>Similar to F# async workflows, the <code>Cloud&lt;'T&gt;</code> represented a deferred cloud computation that returns a result of type &rsquo;T once executed. The closure can be also passed transparently, that we can descirbe higher-order functions to compose cloud workflow. An important feature offered by cloud workflows is exception handling: the symbolic execution stack winds across multiple machines, the computation stack is un-winded across multiple machines as well. (Implement via free continuation monad<a href="http://blog.higher-order.com/assets/trampolines.pdf">[3]</a>)</p>
+
+<p>MBrace also provides some combination operators for parallel processing:</p>
+
+<ul>
+<li><code>Cloud.Parallel : Cloud&lt;'T&gt; [] -&gt; Cloud&lt;'T []&gt;</code></li>
+<li><code>&lt;||&gt; : Cloud&lt;'T&gt; -&gt; Cloud&lt;'U&gt; -&gt; Cloud&lt;'T * U&gt;</code></li>
+<li><code>Cloud.Choice : Cloud&lt;'T option&gt; [] -&gt; Cloud&lt;'T option&gt;</code></li>
+</ul>
+
+<p>Here&rsquo;s some example code snippet in paper,</p>
+
+<h3 id="mapreduce">MapReduce</h3>
+
+<pre><code class="language-fsharp">let rec mapReduce (map: 'T -&gt; Cloud&lt;'R&gt;)
+                  (reduce: 'R -&gt; 'R -&gt; Cloud&lt;'R&gt;)
+                  (identity: 'R)
+                  (input: 'T list) =
+  cloud {
+    match input with
+    | [] -&gt; return identity
+    | [value] -&gt; return! map value
+    | _ -&gt;
+      let left, right = List.split input
+      let! r1, r2 = 
+        (mapReduce map reduce identity left)
+          &lt;||&gt;
+        (mapReduce map reduce identity right)
+
+      return! reduce r1 r2
+  }
+</code></pre>
+
+<h3 id="nondeterministic-computation">Nondeterministic Computation</h3>
+
+<pre><code class="language-fsharp">let exists (f : 'T -&gt; Cloud&lt;bool&gt;) (inputs: 'T []) =
+  cloud {
+    let pick (x : 'T) =
+      cloud {
+        let! result = f x
+        return if result then Some x else None
+      }
+    # In Scala words: Cloud.Choice inputs.map(pick)
+    # Similar to forall operation.
+    let! result = Cloud.Choice &lt;| Array.map pick inputs
+    return result.IsSome
+  }
+</code></pre>
+
+<h3 id="local-parallelism">Local Parallelism</h3>
+
+<p>There are cases where constraining the execution of a cloud workflow in the context of single worker, i.e. useful to manage computation granularity.</p>
+
+<ul>
+<li><code>Cloud.ToLocal : Cloud&lt;'T&gt; -&gt; Cloud&lt;'T&gt;</code></li>
+</ul>
+
+<p>The local combiantor transforms any given cloud workflow into an equivalent expression that executes in a strictly local context.</p>
+
+<pre><code class="language-fsharp">let rec fib n depth =
+  cloud {
+    if depth = 0 then return! Cloud.ToLocal &lt;| fib n depth
+    else
+      match n with
+      | 1 | 2 -&gt; return 1
+      | n -&gt;
+        let! (left, right) = fib (n - 1) (depth - 1) &lt;||&gt; fib (n - 2) (depth - 1)
+        return left + right
+  }
+</code></pre>
+
+<h2 id="distributed-data">Distributed Data</h2>
+
+<p>This is not represented as ddata in Akka (CRDT) or any other else. It&rsquo;s an abstraction to manage data in a more global and massive scale. In the above example, we&rsquo;ve limited data distribution, which is inherently local and almost certainly do not scale to the demands of modern big data application. Hence, MBrace introduced a data entities known as cloud ref, <code>CloudRef&lt;'T&gt;</code>.</p>
+
+<p>It&rsquo;s an trivial abstraction for modern application handling large blob size entity, i.e. in serverless manner, we can only pass references that point to blob storage.</p>
+
+<pre><code class="language-fsharp">let getRef () : Cloud&lt;CloudRef&lt;string []&gt;&gt; =
+  cloud {
+    let! data = download &quot;http://a-big-data-place&quot;
+    let! ref = CloudRef.New data
+    return ref
+  }
+
+# Compute a cloud ref.
+let r = runtime.Run &lt;@ getRef () @&gt;
+# Dereference locally
+let data : string [] = r.value
+</code></pre>
+
+<p>MBrace transparently manages storage, while it also aggressively caches local copies to select worker nodes, within an affinity manner. Hence, there are two types of CloudRef design:</p>
+
+<ul>
+<li>Immutable: eliminates synchronization (from cache to storage), resulting efficient caching and enhanced access speeds.</li>
+<li>Mutable: also a powerful abstraction for defining synchronization mechanisms such as distributed lock and semaphores. You can think it as volatile semantic in JVM, that it&rsquo;s not cacheable to ensure visibility.</li>
+</ul>
+
+<p>What more: scoped resources, offerring a mechanism for performing deallocations in a scope. The data constructs that implement the <code>CloudDisposable</code> interface which bind to <code>use!</code> keyword.</p>
+
+<pre><code class="language-fsharp">cloud {
+  # Ensure deallocation from the global store as soon as the workflow has exited its scope!
+  use! cref = CloudRef.New [| 1 .. 10000000 |]
+  try
+    if cref.Value.Length &gt; 1000 then
+      return failwith &quot;error&quot;
+  with e -&gt;
+    do! Cloud.Logf &quot;error in cloudRef %0&quot; cref
+    return raise e
+}
+</code></pre>
+
+<h2 id="the-mbrace-runtime">The MBrace Runtime</h2>
+
+<p>An execution engine that include facilities for managing, monitoring and debugging cloud processes. The execution model follows a scheduler/worker hierarchy: when a cloud workflow is uploaded to the runtime for execution, a scheduler instance is initialized that interprets the monadic structure of the workflow, disseminating continuations to worker nodes as required. It&rsquo;s also inherently load distributed, fault tolerant for any jobs.</p>
+
+<h2 id="critics">Critics</h2>
+
+<p>This paper gives a well-started introduction for using monad in distributed programming. It&rsquo;s easy and powerful like everything you may familiar with, i.e. IO effect, Task effect or Future. Can be fluently composed into complex functiona transformation workflow. More thankfully, its <a href="https://github.com/mbraceproject/MBrace.Core">open sourced</a>! Research papers are usually restricted for describing more detail about implementation, however, we can go deeper here.</p>
+
+<p>For my own further readings: F# async, CloudHaskell and free continuation monad!</p>
+
+          </div>
+        </div>
+        <div class="pagination">
+          <a class="btn previous " href="https://tz70s.github.io/posts/reactive-programming/"> Prev</a>  
+          <a class="btn next " href="https://tz70s.github.io/posts/gsoc-2018/"> Next</a> 
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer">
+  
+  <p>me :: Tzu-Chiao Yeh @tz70s => su3g4284zo6y7@gmail.com</p>
+  
+</div>
+
+  </div>
+  <script src="https://tz70s.github.io/js/slim.js"></script>
+  <script src="https://tz70s.github.io/js/highlight.pack.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+  
+</body>
+
+</html>
