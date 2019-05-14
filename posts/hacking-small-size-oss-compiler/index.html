@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title> Hacking a Small Size OSS Compiler &middot; tz70s </title>
+
+
+<link rel="stylesheet" href="https://tz70s.github.io/css/slim.css">
+<link rel="stylesheet" href="https://tz70s.github.io/css/github-gist.css">
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Source+Code+Pro' rel='stylesheet'
+  type='text/css'>
+
+
+<link href="" rel="alternate" type="application/rss+xml" title="tz70s" />
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+  <div class="site-title"><a href="https://tz70s.github.io/">tz70s</a>
+     <a class="sub-site-title" href="https://github.com/tz70s">Github</a>
+    
+     <a class="sub-site-title" href="https://twitter.com/tz70s">Twitter</a>
+    
+     <a class="sub-site-title" href="https://linkedin.com/in/tzu-chiao-yeh-193697103">LinkedIn</a>
+    
+  </div>
+  <p class="site-tagline">Hacking distributed systems.</p>
+</div>
+    <div class="content">
+      <div class="posts">
+        <div class="post">
+          <h2 class="post-title"><a href="https://tz70s.github.io/posts/hacking-small-size-oss-compiler/">Hacking a Small Size OSS Compiler</a></h2>
+          <span class="post-date">May 14, 2019 </span>
+          <div class="post-content">
+            
+
+<p>Compiler is a well-known complex software to build,
+but also plays a significant role on computer science history
+and attracts many programmers to explore the mystery.
+Both of theory foundation and engineering of compiler construction
+is hard, and I&rsquo;m not an expert (even not a <em>compiler engineer</em>) at all.
+However, in this post, I would like to show my experience to
+hacking <strong>PureScript</strong> compiler.</p>
+
+<p>Strictly speaking, this is a transpiler instead of machine code generation.
+We&rsquo;re almost talking about the <strong>frontend</strong> of compiler,
+including <em>lexical analysis</em>, <em>parsing</em>, <em>semantic analysis (scope, type checking)</em>
+and a relative simple, one pass code generation to Javascript.</p>
+
+<p>Some <strong>pre-requisition</strong> might be needed here:</p>
+
+<ul>
+<li>Ability to read (and write) Haskell (in Haskell Programming from First Principle or Real World Haskell level.)</li>
+<li>Maybe some undergraduate level compiler knowledge (i.e. regular expression, context free grammar, abstract syntax tree and simple code generation).</li>
+</ul>
+
+<p>Note that you don&rsquo;t actually needs to know every theory foundation
+in dragon book or others.
+But theory makes you more confident to correctly construct compiler though.</p>
+
+<p>I would recommend <a href="http://craftinginterpreters.com">Crafting Interpreters</a>, <a href="http://web.stanford.edu/class/cs143/index2018.html">Stanford CS143</a> and <a href="https://www.amazon.com/Engineering-Compiler-Keith-Cooper/dp/012088478X">Engineering a Compiler</a>.</p>
+
+<p>For some advanced knowledge, I&rsquo;ll link them when we reach out.</p>
+
+<h1 id="purescript">PureScript</h1>
+
+<p>PureScript is a language transpiled into Javascript for web frontend (almost) programming.
+The syntax is similar to Haskell as well as the powerful type system,
+including typeclasses, higher kinded types, higher rank polymorphism,
+and row polymorphism and extensible records, etc.
+At the first glance, it wires up rich features here,
+however, the purescript compiler is well engineered and relative <strong>small</strong>!
+(You can compare to GHC as well as Haskell-based compiler.)</p>
+
+<pre><code class="language-bash">git clone https://github.com/purescript/purescript.git
+cd purescript
+loc .
+
+--------------------------------------------------------------------------------
+ Language             Files        Lines        Blank      Comment         Code
+--------------------------------------------------------------------------------
+ Haskell                206        41216         5007         5744        30465
+ PureScript             707         9229         2572          497         6160
+ Markdown                 8         1077          224            0          853
+ JSON                    12          829            0            0          829
+ CSS                      2         1142           85          278          779
+ Yacc                     1          746          113            0          633
+ Less                     1          875          160          111          604
+ YAML                     2          193            6            1          186
+ JavaScript              10          133            8            9          116
+ Bourne Shell             5          177           38           40           99
+ Plain Text               2           42            7            0           35
+ Makefile                 1           59           15           11           33
+ HTML                     1           10            0            0           10
+ Batch                    1            3            0            0            3
+--------------------------------------------------------------------------------
+ Total                  959        55731         8235         6691        40805
+--------------------------------------------------------------------------------
+
+# The nested main source of compiler.
+cd src
+loc .
+
+--------------------------------------------------------------------------------
+ Language             Files        Lines        Blank      Comment         Code
+--------------------------------------------------------------------------------
+ Haskell                167        35737         4334         5381        26022
+ Yacc                     1          746          113            0          633
+--------------------------------------------------------------------------------
+ Total                  168        36483         4447         5381        26655
+--------------------------------------------------------------------------------
+</code></pre>
+
+<p>I won&rsquo;t go through the usage and syntax on PureScript,
+but you can easily go through it by the really awesome <a href="https://leanpub.com/purescript/read">document</a>.</p>
+
+<h1 id="structure-of-purescript-compiler">Structure of PureScript Compiler</h1>
+
+<p>To build up purescript compiler, all you need is <code>stack</code> and it&rsquo;s well engineered to setup all things easily.</p>
+
+<pre><code>git clone https://github.com/purescript/purescript.git
+cd purescript
+
+# Build project.
+make build
+# Or stack build.
+
+# Run the compiler executable.
+make run
+# Or stack exec purs
+</code></pre>
+
+<p>The important directory in the main repository:</p>
+
+<ul>
+<li><strong>app</strong>: main entry point of purescript compiler.</li>
+<li><strong>src</strong>: the core compiler code.</li>
+<li><strong>tests</strong>: unit and integration tests.</li>
+</ul>
+
+<p>You can also dive into the makefile for common utilities for faster development (i.e. ghcid).</p>
+
+          </div>
+        </div>
+        <div class="pagination">
+          <a class="btn previous " href="https://tz70s.github.io/drafts/algebraic-domain-modeling/"> Prev</a>  
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer">
+  
+  <p>Tzu-Chiao Yeh { @tz70s, su3g4284zo6y7@gmail.com }</p>
+  
+</div>
+
+  </div>
+  <script src="https://tz70s.github.io/js/slim.js"></script>
+  <script src="https://tz70s.github.io/js/highlight.pack.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+  
+</body>
+
+</html>
