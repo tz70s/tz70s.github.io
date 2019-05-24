@@ -3,14 +3,14 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://tz70s.github.io/posts/hacking-small-size-oss-compiler/</loc>
+    <loc>https://tz70s.github.io/drafts/</loc>
     <lastmod>2019-05-14T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://tz70s.github.io/posts/</loc>
+    <loc>https://tz70s.github.io/drafts/hacking-moderate-size-oss-compiler/</loc>
     <lastmod>2019-05-14T00:00:00+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -20,14 +20,14 @@
   </url>
   
   <url>
-    <loc>https://tz70s.github.io/drafts/</loc>
+    <loc>https://tz70s.github.io/drafts/algebraic-domain-modeling/</loc>
     <lastmod>2019-02-18T00:00:00+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://tz70s.github.io/drafts/algebraic-domain-modeling/</loc>
-    <lastmod>2019-02-18T00:00:00+00:00</lastmod>
+    <loc>https://tz70s.github.io/posts/</loc>
+    <lastmod>2019-02-12T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>

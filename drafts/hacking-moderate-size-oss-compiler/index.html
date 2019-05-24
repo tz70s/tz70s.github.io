@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<title> Hacking a Small Size OSS Compiler &middot; tz70s </title>
+<title> Hacking a Moderate Size OSS Compiler &middot; tz70s </title>
 
 
 <link rel="stylesheet" href="https://tz70s.github.io/css/slim.css">
@@ -30,12 +30,10 @@
   <p class="site-tagline">Hacking distributed systems.</p>
 </div>
     <div class="content">
-      <div class="posts">
-        <div class="post">
-          <h2 class="post-title"><a href="https://tz70s.github.io/posts/hacking-small-size-oss-compiler/">Hacking a Small Size OSS Compiler</a></h2>
-          <span class="post-date">May 14, 2019 </span>
-          <div class="post-content">
-            
+      <div class="post">
+        <h2 class="post-title"><a href="https://tz70s.github.io/drafts/hacking-moderate-size-oss-compiler/">Hacking a Moderate Size OSS Compiler</a></h2>
+        <div class="post-content">
+          
 
 <p>Compiler is a well-known complex software to build,
 but also plays a significant role on computer science history
@@ -69,7 +67,7 @@ But theory makes you more confident to correctly construct compiler though.</p>
 
 <p>PureScript is a language transpiled into Javascript for web frontend (almost) programming.
 The syntax is similar to Haskell as well as the powerful type system,
-including typeclasses, higher kinded types, higher rank polymorphism,
+including type classes, higher kinded types, higher rank polymorphism,
 and row polymorphism and extensible records, etc.
 At the first glance, it wires up rich features here,
 however, the purescript compiler is well engineered and relative <strong>small</strong>!
@@ -143,14 +141,17 @@ make run
 
 <p>You can also dive into the makefile for common utilities for faster development (i.e. ghcid).</p>
 
-          </div>
-        </div>
-        <div class="pagination">
-          <a class="btn previous " href="https://tz70s.github.io/drafts/algebraic-domain-modeling/"> Prev</a>  
+<h1 id="the-core-data-structure">The Core Data Structure</h1>
+
+<p>To understand a compiler, getting familiar the core data structure is often a good idea.
+The core data structure of compiler is an abstract syntax tree,
+which represented syntactic structure of a program deriving from context-free grammar.
+In the frontend of compilers, we will mostly manipulates AST for semantic analysis,
+including to scope analysis, type inference and checking and code generation.</p>
+
         </div>
       </div>
     </div>
-    
     <div class="footer">
   
   <p>Tzu-Chiao Yeh { @tz70s, su3g4284zo6y7@gmail.com }</p>
@@ -159,11 +160,8 @@ make run
 
   </div>
   <script src="https://tz70s.github.io/js/slim.js"></script>
-  <script src="https://tz70s.github.io/js/highlight.pack.js"></script>
-  <script>
-    hljs.initHighlightingOnLoad();
-  </script>
   
+
 </body>
 
 </html>
