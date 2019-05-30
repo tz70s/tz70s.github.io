@@ -5,10 +5,23 @@
     <link>https://tz70s.github.io/drafts/</link>
     <description>Recent content in Drafts on tz70s</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Tue, 14 May 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 29 May 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://tz70s.github.io/drafts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Play LLVM with Haskell</title>
+      <link>https://tz70s.github.io/drafts/play-llvm-with-haskell/</link>
+      <pubDate>Wed, 29 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://tz70s.github.io/drafts/play-llvm-with-haskell/</guid>
+      <description>最近玩了一下 Haskell 的 LLVM binding，對照著這強烈推薦精美的 Post 來實作， 覺得蠻有趣。只不過雖然這篇文章寫的精巧又完整，但內容有點過時，例如類型錯誤、以及使用低抽象的 binding APIs，所以我大致紀錄一下我修改過的版本。
+Setup 我使用的 Haskell 版本是 GHC 8.6.5，然後 LLVM 的相依我是直接用 Homebrew 裝， 雖然我本身已經有用 Homebrew 裝 LLVM 了，但 llvm-hs 有提供一個加版本號的 formula，自動幫你 build dynamic library， 適用懶人也沒遇到什麼衝突的問題。但這有一個問題就是有點過肥，所以最好還是乖乖改一下 formula 或是自己 cmake build 一下。可以參考一下完整的指令。
+剩下就是把 dependency 拉一拉：
+stack.yaml extra-deps: - llvm-hs-8.0.0 - llvm-hs-pure-8.0.0  *.cabal build-depends: base &amp;gt;= 4.7 &amp;amp;&amp;amp; &amp;lt; 5 , llvm-hs , llvm-hs-pure , ...  完整可以參考這裡。
+Kaleidoscope Kaleidoscope 是 LLVM Tutorial 的語言，有各種版本，那我的實作也是用這個來實驗，主要前端是用 Parsec 嚕的， 這相對找得到資源，所以我就不贅述了，可以直接參考這些文章：Post, Write You a Haskell 以及其他我沒看過的 link。</description>
+    </item>
     
     <item>
       <title>Hacking a Moderate Size OSS Compiler</title>
