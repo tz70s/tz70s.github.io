@@ -26,6 +26,8 @@
     
      <a class="sub-site-title" href="https://linkedin.com/in/tzu-chiao-yeh-193697103">LinkedIn</a>
     
+     <a class="sub-site-title" href="https://drive.google.com/open?id=1wm9KAGz5H3ljCvuG9IX0LK0poWGZvnPr">Resume</a>
+    
   </div>
   <p class="site-tagline">Hacking distributed systems.</p>
 </div>
@@ -54,22 +56,21 @@
 <p>Features:</p>
 
 <ul>
-<li>Compositional and declarative approach to describing distributed computations, by <strong>monad</strong>.</li>
-</ul>
+<li><p>Compositional and declarative approach to describing distributed computations, by <strong>monad</strong>.</p>
 
 <pre><code class="language-fsharp"># a fork-join pattern
 cloud {
-  let job1 = cloud { return 1 }
-  let job2 = cloud { return 2 }
-  let! [| result1 ; result2 |] =
-    Cloud.Parallel [| job1 ; job2 |]
-  return result1 + result2
+let job1 = cloud { return 1 }
+let job2 = cloud { return 2 }
+let! [| result1 ; result2 |] =
+Cloud.Parallel [| job1 ; job2 |]
+return result1 + result2
 }
-</code></pre>
+</code></pre></li>
 
-<ul>
-<li>Scalable MBrace runtime that enables distributed abstract machine execution for cloud workflows (enable location transparency).</li>
-<li>Rich client tooling, cloud workflow libraries, REPL and IDE integration.</li>
+<li><p>Scalable MBrace runtime that enables distributed abstract machine execution for cloud workflows (enable location transparency).</p></li>
+
+<li><p>Rich client tooling, cloud workflow libraries, REPL and IDE integration.</p></li>
 </ul>
 
 <h1 id="programming-model-cloud-workflows">Programming Model - Cloud Workflows</h1>
