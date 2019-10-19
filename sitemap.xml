@@ -5,7 +5,6 @@
   <url>
     <loc>https://tz70s.github.io/drafts/</loc>
     <lastmod>2019-05-29T00:00:00+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -16,7 +15,6 @@
   <url>
     <loc>https://tz70s.github.io/</loc>
     <lastmod>2019-05-29T00:00:00+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -32,7 +30,6 @@
   <url>
     <loc>https://tz70s.github.io/posts/</loc>
     <lastmod>2019-02-12T00:00:00+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -43,6 +40,11 @@
   <url>
     <loc>https://tz70s.github.io/posts/mbrace/</loc>
     <lastmod>2018-09-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tz70s.github.io/posts/local-mac-setup-for-data-engineering/</loc>
+    <lastmod>2018-08-20T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -66,12 +68,10 @@
   
   <url>
     <loc>https://tz70s.github.io/categories/</loc>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://tz70s.github.io/tags/</loc>
-    <priority>0</priority>
   </url>
   
 </urlset>

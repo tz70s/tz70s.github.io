@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title> Local Mac OSX Setup for Engineering Data &middot; tz70s </title>
+
+
+<link rel="stylesheet" href="https://tz70s.github.io/css/slim.css">
+<link rel="stylesheet" href="https://tz70s.github.io/css/github-gist.css">
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Source+Code+Pro' rel='stylesheet'
+  type='text/css'>
+
+
+<link href="" rel="alternate" type="application/rss+xml" title="tz70s" />
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+  <div class="site-title"><a href="https://tz70s.github.io/">tz70s</a>
+     <a class="sub-site-title" href="https://github.com/tz70s">Github</a>
+    
+     <a class="sub-site-title" href="https://twitter.com/tz70s">Twitter</a>
+    
+     <a class="sub-site-title" href="https://linkedin.com/in/tzu-chiao-yeh-193697103">LinkedIn</a>
+    
+     <a class="sub-site-title" href="https://drive.google.com/open?id=1wm9KAGz5H3ljCvuG9IX0LK0poWGZvnPr">Resume</a>
+    
+  </div>
+  <p class="site-tagline">Hacking distributed systems.</p>
+</div>
+    <div class="content">
+      <div class="posts">
+        <div class="post">
+          <h2 class="post-title"><a href="https://tz70s.github.io/posts/local-mac-setup-for-data-engineering/">Local Mac OSX Setup for Engineering Data</a></h2>
+          <span class="post-date">Aug 20, 2018 </span>
+          <div class="post-content">
+            
+
+<p>紀錄本地端 Mac 對 Hadoop Ecosystem 相關開發的設定。</p>
+
+<h1 id="hadoop">Hadoop</h1>
+
+<p>Homebrew</p>
+
+<p>以 brew 安裝後，會有安裝的 location 和方便使用的 script (<code>start-all.sh</code>) 的位置是需要 tuning 的，基本上設定為 <a href="https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SingleCluster.html">Pseudo Distributed</a> 的模式。</p>
+
+<ul>
+<li><code>/usr/local/Cellar/hadoop/&lt;version&gt;/libexec/etc/hadoop</code>: configuration files (xml files)，設定參考官網即可。</li>
+<li><code>/usr/local/sbin</code>: symlink 的 start-up, tear-down scripts。</li>
+</ul>
+
+<p>所以基本上每次要重開的時候都 refer 到 <code>/usr/local/sbin</code> 找 script 來把 daemon 打開 (e.g. hdfs, yarn, etc.)
+然後預設的 Web UI 介面的位置為：</p>
+
+<ul>
+<li>Name Node: <a href="http://localhost:9870/">http://localhost:9870/</a></li>
+<li>Resource Manager: <a href="http://localhost:8088/">http://localhost:8088/</a></li>
+</ul>
+
+<h1 id="spark">Spark</h1>
+
+<p>Spark 基本上本地開發就直接 Link Library 即可，沒特別需要把 build 好的 package 撈下來，以 test driven 的方式 + interactive SBT 是最佳模式。
+需要注意的點為有些版本 (Scala or JVM) 會不相容，注意一下主線的需求版本。</p>
+
+<p>另外，Spark Executor 在 SBT 跑完後會出現殺不掉的問題，因為兩個跑在同一個 JVM 上，注意一下將 fork apply 到所有 sbt tasks 中：</p>
+
+<pre><code class="language-scala">fork := true
+
+// Or specify some tasks, but not recommended.
+fork in run := true
+</code></pre>
+
+          </div>
+        </div>
+        <div class="pagination">
+          <a class="btn previous " href="https://tz70s.github.io/posts/gsoc-2018/"> Prev</a>  
+          <a class="btn next " href="https://tz70s.github.io/posts/mbrace/"> Next</a> 
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer">
+  
+  <p>Tzu-Chiao Yeh { @tz70s, su3g4284zo6y7@gmail.com }</p>
+  
+</div>
+
+  </div>
+  <script src="https://tz70s.github.io/js/slim.js"></script>
+  <script src="https://tz70s.github.io/js/highlight.pack.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+  
+</body>
+
+</html>
