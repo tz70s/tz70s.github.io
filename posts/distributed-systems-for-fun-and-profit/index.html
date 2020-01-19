@@ -37,102 +37,68 @@
           <h2 class="post-title"><a href="https://tz70s.github.io/posts/distributed-systems-for-fun-and-profit/">Distributed Systems for Fun and Profit</a></h2>
           <span class="post-date">Jun 7, 2017 </span>
           <div class="post-content">
-            
-
-<p><a href="http://book.mixu.net/distsys/">Distributed Systems for Fun and Profit</a> 是本分散式系統的書，短小精悍目標是涵蓋所有分散式系統的概念和點出一些關鍵的演算法，然後這是我的筆記。</p>
-
+            <p><a href="http://book.mixu.net/distsys/">Distributed Systems for Fun and Profit</a> 是本分散式系統的書，短小精悍目標是涵蓋所有分散式系統的概念和點出一些關鍵的演算法，然後這是我的筆記。</p>
 <h1 id="basics">Basics</h1>
-
 <p>基本電腦系統可以分為兩種 task 需要去完成</p>
-
 <ul>
 <li>storage</li>
 <li>computation</li>
 </ul>
-
 <p>分散式系統的目標是要解決當我們系統 scale up 去處理這些 task ，並且而後發生的種種 trade-off。</p>
-
 <h2 id="scalability">Scalability</h2>
-
 <blockquote>
 <p>is the ability of a system, network, or process, to handle a growing amount of work in a capable manner or its ability to be enlarged to accommodate that growth</p>
 </blockquote>
-
 <p><strong>Growth</strong> 可以從很多面向來看，但最重要相關的觀點用以來量測就是<code>performance and availability</code></p>
-
 <h2 id="performance-and-latency">Performance (and latency)</h2>
-
 <blockquote>
 <p>is characterized by the amount of useful work accomplished by a computer system compared to the time and resources used</p>
 </blockquote>
-
 <p>從字面上的意思來看就是工作完成/花的時間&amp;用了多少 resource，而這當然在不同 context 下會有不同的樣子，如 <code>response time, throughput, utilization</code> 都可以視為 performance 的 metrics，只不過當然這些彼此都可能有 tradeoff 存在，例如 low response time 和 high throughput 不同時成立。</p>
-
 <h2 id="availability-and-fault-tolerance">Availability (and fault tolerance)</h2>
-
 <blockquote>
 <p>the proportion of time a system is in a functioning condition. If a user cannot access the system, it is said to be unavailable</p>
 </blockquote>
-
 <p><code>Availability = uptime / (uptime + downtime)</code></p>
-
-<p>而 <strong>Fault tolerance</strong> 代表的是
-&gt; ability of a system to behave in a well-defined manner once faults occur</p>
-
+<p>而 <strong>Fault tolerance</strong> 代表的是</p>
+<blockquote>
+<p>ability of a system to behave in a well-defined manner once faults occur</p>
+</blockquote>
 <h2 id="abstraction-and-models">Abstraction and Models</h2>
-
 <h3 id="abstraction">Abstraction</h3>
-
 <ul>
 <li>分散式系統的目標就是想要變成一個<strong>像是單一系統</strong>的系統</li>
 </ul>
-
 <h3 id="model">Model</h3>
-
 <ul>
 <li>System model (asynchronous / synchronous)</li>
 <li>Failure model (crash-fail, partitions, Byzantine)</li>
 <li>Consistency model (strong eventual)</li>
 </ul>
-
 <h2 id="design-techniques-partition-and-replicate">Design techniques: partition and replicate</h2>
-
-<p><img src="https://i.imgur.com/Eh9aQr6.jpg" alt="Partition and Replication" /></p>
-
+<p><img src="https://i.imgur.com/Eh9aQr6.jpg" alt="Partition and Replication"></p>
 <p><strong>Partitioning</strong> 主要是把 dataset 分成不同的獨立 set，降低 dataset growth 所造成的影響。</p>
-
 <ul>
 <li>可以增進 performance ，利用相關的 data 被分割到相同的 partition</li>
 <li>可以增進 availability ，利用分割的 failure 可視為獨立的。(no cascading failure)</li>
 </ul>
-
 <p>但 partitioning 是 apllication-specific，所以在處理上得設計好 access 的方式，<strong>處理好因為去除相依性所帶來的限制</strong>，所以比較多還是會考慮在 replication。</p>
-
 <p><strong>Replication</strong> 則是 make copies 。</p>
-
 <ul>
 <li>一樣可以增進 performance，因為有額外的運算資源可以處理 copy of data，也可以 cache。</li>
 <li>也可以增進 availability，<strong>bj4</strong></li>
 </ul>
-
 <p>但 replication 可以讓我們達到 scalability, performance, fault tolerance，但則要考慮到 <strong>consistency</strong> 的問題，選擇怎麼樣的 consistency model 是最重要的問題。</p>
-
 <h1 id="up-and-down-the-level-of-abstraction">Up and down the level of abstraction</h1>
-
 <p><strong>Abstraction</strong> 是基於忽略一些系統的面向來做出的 <strong>fake</strong> ，所以 system model 是規格讓我們知道可以做到的事情，與沒辦法做到的事情。</p>
-
 <h2 id="a-system-model">A system model</h2>
-
 <p>Programs 在分散式系統中</p>
-
 <ul>
 <li>同時可能會跑在不同的 node 上</li>
 <li>利用可能會不穩定的網路連接</li>
 <li>沒有使用 shared memory 或 shared clock</li>
 </ul>
-
 <p>會有一些延伸的 properties</p>
-
 <ul>
 <li>每個 node 會執行 program</li>
 <li>state 是 local 的，且 global state 有可能會過期</li>
@@ -140,175 +106,125 @@
 <li>訊息會掉包</li>
 <li>每個 node 的 clock 可能不同步</li>
 </ul>
-
 <h3 id="system-model">System model</h3>
-
 <blockquote>
 <p>a set of assumptions about the environment and facilities on which a distributed system is implemented</p>
 </blockquote>
-
 <ol>
 <li><strong>Nodes</strong> 是個 host 做 computation and storage，並且擁有</li>
 </ol>
-
 <ul>
 <li>Ability to execute a program</li>
 <li>Ability to store data into volatile memory and into stable state(persistent)</li>
 <li>A clock</li>
 </ul>
-
 <p>目前主流是用 <strong>crash-recovery failure model</strong>，當一個 node fail 時，他有可能會在某個點 recover。<strong>Byzantine fault tolerance</strong> 則是 cost 太高，比較不常見。</p>
-
-<ol>
+<ol start="2">
 <li><strong>Communication links</strong> 是連接 nodes，而 reliable transfer 是我們所要考量的。</li>
 </ol>
-
 <p><strong>A Network Partition</strong> 在這是指網路斷掉了 (雖然 node 仍舊會運作)，在這狀況下，傳遞的訊息就會丟包，被分割的點可能會有別人 access ，或是被當成 crash node。</p>
-
-<p><img src="https://i.imgur.com/X18C8Nn.jpg" alt="" />
+<p><img src="https://i.imgur.com/X18C8Nn.jpg" alt="">
 <strong>node fail vs network partition</strong></p>
-
-<ol>
+<ol start="3">
 <li><strong>Timing / ordering</strong></li>
 </ol>
-
 <ul>
 <li>Synchronous system model</li>
 </ul>
-
 <p>給定了 timing / ordering 的假設</p>
-
 <ol>
 <li>Processes execute in lock-step;</li>
 <li>there is a know uppper bound on message transmission delay;</li>
 <li>each process has an accurate clock</li>
 </ol>
-
 <ul>
 <li>Asynchronous system model</li>
 </ul>
-
 <p>No timing assumptions</p>
-
 <ol>
 <li>no bound on message transimission delay</li>
 <li>no useful clocks</li>
 </ol>
-
 <h2 id="the-consensus-problem">The consensus problem</h2>
-
 <p>Consensus problem 其實主要是在講<strong>同意</strong>這件事情</p>
-
 <ol>
 <li>Agreement : 全部正確的 process 都要同意相同的值。</li>
 <li>Integrity : 全部正確的 process 只能決定最多一個值，是由某些 process 提出的。</li>
 <li>Termination : 全部的 process 最終會得出一個 decision 。</li>
 <li>Validity : 如果全部的 process 提出相同的值 V，則決定 V。</li>
 </ol>
-
 <h2 id="the-flp-impossibility-result">The FLP impossibility result</h2>
-
 <p>假設</p>
-
 <ul>
 <li>Asynchrouns system model (no timing assumtion)</li>
 <li>Even no communication failure (reliable network)</li>
 <li>Nodes can only fail by crashing</li>
 </ul>
-
 <p>結論 : <strong>不要浪費時間在異步系統上解決consensus problem</strong>，即便是在以上這麼小的假設。</p>
-
 <h2 id="the-cap-theorem">The CAP theorem</h2>
-
 <ul>
 <li>Consistency : 這裡指的是 Strong consistency</li>
 <li>Availability : 整個系統可以持續讀寫(自然是不包含 consistency )</li>
 <li>Partition tolerance: 系統會有分區的情況，也就是網路會在有限時間/無限時間內斷線，也就是長延遲也算在內。</li>
 </ul>
-
-<p><img src="https://i.imgur.com/ZYitpZB.jpg" alt="" /></p>
-
+<p><img src="https://i.imgur.com/ZYitpZB.jpg" alt=""></p>
 <p><strong>CAP</strong> 說中間 intersection，也就是三者都成立的狀況是不可能滿足的。</p>
-
 <p>因此我們會有三種不同面向的系統</p>
-
 <ol>
 <li>CA(consistency + availability)</li>
 <li>CP(consistency + partition tolerance)</li>
 <li>AP(availability + partition tolerance)</li>
 </ol>
-
 <p>首先，CA 的系統如傳統的分散式資料庫，是建立在強假設不會有 partition 發生，系統本身也沒辦法區分 partition 。假設今天 partition 出現了，系統唯一能做的就是停止寫入以保持一致性，或是反過來。但事實上這並不符合現代需求和物理現象。</p>
-
-<p><img src="https://i.imgur.com/l17rZ7D.png" alt="" /></p>
-
+<p><img src="https://i.imgur.com/l17rZ7D.png" alt=""></p>
 <p>當網路會有分區的狀況發生時，也就是說假設今天A, B中間的網路斷線了，A和B會做出怎樣的決策。</p>
-
 <ol>
 <li>繼續分別提供讀寫服務，自然資料就會產生不一致，也就是 AP type。</li>
 <li>停止部分寫入服務，則資料的部分可以維持一致，但也沒有 Availability 了，這則是 CP type。常見的是會選擇 major 區域來繼續提供寫入，minor 則是關閉寫入。</li>
 <li>而當我們今天預設狀況是網路都是保證正常，則 CA type 就可以很<strong>理想</strong>的完成了。</li>
 </ol>
-
 <p>附註一下，當 Partition tolerance 的處理流程，有點像版本控制。</p>
-
 <ol>
 <li>偵測是否分區</li>
 <li>當發生分區時，進入分區模式限制住某些操作</li>
 <li>分區結束時，合併狀態</li>
 </ol>
-
-<p><img src="https://i.imgur.com/eH8o6Ur.jpg" alt="" /></p>
-
+<p><img src="https://i.imgur.com/eH8o6Ur.jpg" alt=""></p>
 <h2 id="consistency-models">Consistency models</h2>
-
 <p>Consistency models 可以被分為兩種 type</p>
-
 <ul>
-<li><p>Strong consistency model</p>
-
+<li>
+<p>Strong consistency model</p>
 <ul>
 <li>Linearizable consistency</li>
 <li>Sequential consistency</li>
-</ul></li>
-
-<li><p>Weak consistency model</p>
-
+</ul>
+</li>
+<li>
+<p>Weak consistency model</p>
 <ul>
 <li>Client-centric consistency model</li>
 <li>Casual consistency: strongest model available</li>
 <li>Eventual consistency model</li>
-</ul></li>
 </ul>
-
+</li>
+</ul>
 <h3 id="linearizable-consistency">Linearizable consistency</h3>
-
 <p>所有 operation 與 global real-time ordering operation 是一致的，也就是有一個<strong>絕對時間</strong>的存在，且這些 operation 都是按照絕對時間來排序。</p>
-
 <h3 id="sequential-consistency">Sequential consistency</h3>
-
 <p>將 global real-time ordering 放寬，允許不用按照絕對時間排序，但也保證 individual 上的順序是滿足 program oreder 的，且全部 node 看到的都是相同的順序即可。</p>
-
 <h3 id="casual-consistency">Casual consistency</h3>
-
 <p>有因果關係存在</p>
-
 <ul>
 <li>同一個 node 中的 event A 早於 B (A&lt;B)</li>
 <li>當 A 完成後會推播消息給 B</li>
 <li>已知 A&lt;B , B&lt;C 則 A&lt;C</li>
 </ul>
-
 <p>Casual consistency 是要求如果兩個 event 有因果關係的話，則要求他們是順序一致的，且所有 node 都會看到相同的一致，但反之沒有因果關係的話，就不用保持一致性。</p>
-
-<p><img src="https://i.imgur.com/uqE9XxF.png" alt="" /></p>
-
+<p><img src="https://i.imgur.com/uqE9XxF.png" alt=""></p>
 <p>P2 把 x 從 1 改成 2，因此讀取操作不允許出現 R(x)2,R(x)1 的現象。但是此例中，y 操作没有因果序，所以 P3 讀到 R(y)1, R(y)2 和 P4 讀到 R(y)2, R(y)1 的在 Causal Consistency 是允許的。</p>
-
 <h3 id="eventual-consistency">Eventual consistency</h3>
-
 <p>系統在最終會保持一致性，但是這也會引發我們需要去認知的問題。</p>
-
 <ol>
 <li>How long is <strong>eventually</strong>?</li>
 <li>How do the replicas agree on a value?</li>
@@ -318,7 +234,7 @@
         </div>
         <div class="pagination">
           <a class="btn previous " href="https://tz70s.github.io/about/"> Prev</a>  
-          <a class="btn next " href="https://tz70s.github.io/posts/openwhisk-performance-improvement/"> Next</a> 
+          <a class="btn next " href="https://tz70s.github.io/posts/dist-collections/"> Next</a> 
         </div>
       </div>
     </div>

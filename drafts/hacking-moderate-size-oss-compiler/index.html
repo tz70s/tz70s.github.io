@@ -35,38 +35,28 @@
       <div class="post">
         <h2 class="post-title"><a href="https://tz70s.github.io/drafts/hacking-moderate-size-oss-compiler/">Hacking a Moderate Size OSS Compiler</a></h2>
         <div class="post-content">
-          
-
-<p>Compiler is a well-known complex software to build,
+          <p>Compiler is a well-known complex software to build,
 but also plays a significant role on computer science history
 and attracts many programmers to explore the mystery.
 Both of theory foundation and engineering of compiler construction
-is hard, and I&rsquo;m not an expert (even not a <em>compiler engineer</em>) at all.
+is hard, and I'm not an expert (even not a <em>compiler engineer</em>) at all.
 However, in this post, I would like to show my experience to
 hacking <strong>PureScript</strong> compiler.</p>
-
 <p>Strictly speaking, this is a transpiler instead of machine code generation.
-We&rsquo;re almost talking about the <strong>frontend</strong> of compiler,
+We're almost talking about the <strong>frontend</strong> of compiler,
 including <em>lexical analysis</em>, <em>parsing</em>, <em>semantic analysis (scope, type checking)</em>
 and a relative simple, one pass code generation to Javascript.</p>
-
 <p>Some <strong>pre-requisition</strong> might be needed here:</p>
-
 <ul>
 <li>Ability to read (and write) Haskell (in Haskell Programming from First Principle or Real World Haskell level.)</li>
 <li>Maybe some undergraduate level compiler knowledge (i.e. regular expression, context free grammar, abstract syntax tree and simple code generation).</li>
 </ul>
-
-<p>Note that you don&rsquo;t actually needs to know every theory foundation
+<p>Note that you don't actually needs to know every theory foundation
 in dragon book or others.
 But theory makes you more confident to correctly construct compiler though.</p>
-
 <p>I would recommend <a href="http://craftinginterpreters.com">Crafting Interpreters</a>, <a href="http://web.stanford.edu/class/cs143/index2018.html">Stanford CS143</a> and <a href="https://www.amazon.com/Engineering-Compiler-Keith-Cooper/dp/012088478X">Engineering a Compiler</a>.</p>
-
-<p>For some advanced knowledge, I&rsquo;ll link them when we reach out.</p>
-
+<p>For some advanced knowledge, I'll link them when we reach out.</p>
 <h1 id="purescript">PureScript</h1>
-
 <p>PureScript is a language transpiled into Javascript for web frontend (almost) programming.
 The syntax is similar to Haskell as well as the powerful type system,
 including type classes, higher kinded types, higher rank polymorphism,
@@ -74,53 +64,47 @@ and row polymorphism and extensible records, etc.
 At the first glance, it wires up rich features here,
 however, the purescript compiler is well engineered and relative <strong>small</strong>!
 (You can compare to GHC as well as Haskell-based compiler.)</p>
-
-<pre><code class="language-bash">git clone https://github.com/purescript/purescript.git
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git clone https://github.com/purescript/purescript.git
 cd purescript
 loc .
 
 --------------------------------------------------------------------------------
  Language             Files        Lines        Blank      Comment         Code
 --------------------------------------------------------------------------------
- Haskell                206        41216         5007         5744        30465
- PureScript             707         9229         2572          497         6160
- Markdown                 8         1077          224            0          853
- JSON                    12          829            0            0          829
- CSS                      2         1142           85          278          779
- Yacc                     1          746          113            0          633
- Less                     1          875          160          111          604
- YAML                     2          193            6            1          186
- JavaScript              10          133            8            9          116
- Bourne Shell             5          177           38           40           99
- Plain Text               2           42            7            0           35
- Makefile                 1           59           15           11           33
- HTML                     1           10            0            0           10
- Batch                    1            3            0            0            3
+ Haskell                <span style="color:#ae81ff">206</span>        <span style="color:#ae81ff">41216</span>         <span style="color:#ae81ff">5007</span>         <span style="color:#ae81ff">5744</span>        <span style="color:#ae81ff">30465</span>
+ PureScript             <span style="color:#ae81ff">707</span>         <span style="color:#ae81ff">9229</span>         <span style="color:#ae81ff">2572</span>          <span style="color:#ae81ff">497</span>         <span style="color:#ae81ff">6160</span>
+ Markdown                 <span style="color:#ae81ff">8</span>         <span style="color:#ae81ff">1077</span>          <span style="color:#ae81ff">224</span>            <span style="color:#ae81ff">0</span>          <span style="color:#ae81ff">853</span>
+ JSON                    <span style="color:#ae81ff">12</span>          <span style="color:#ae81ff">829</span>            <span style="color:#ae81ff">0</span>            <span style="color:#ae81ff">0</span>          <span style="color:#ae81ff">829</span>
+ CSS                      <span style="color:#ae81ff">2</span>         <span style="color:#ae81ff">1142</span>           <span style="color:#ae81ff">85</span>          <span style="color:#ae81ff">278</span>          <span style="color:#ae81ff">779</span>
+ Yacc                     <span style="color:#ae81ff">1</span>          <span style="color:#ae81ff">746</span>          <span style="color:#ae81ff">113</span>            <span style="color:#ae81ff">0</span>          <span style="color:#ae81ff">633</span>
+ Less                     <span style="color:#ae81ff">1</span>          <span style="color:#ae81ff">875</span>          <span style="color:#ae81ff">160</span>          <span style="color:#ae81ff">111</span>          <span style="color:#ae81ff">604</span>
+ YAML                     <span style="color:#ae81ff">2</span>          <span style="color:#ae81ff">193</span>            <span style="color:#ae81ff">6</span>            <span style="color:#ae81ff">1</span>          <span style="color:#ae81ff">186</span>
+ JavaScript              <span style="color:#ae81ff">10</span>          <span style="color:#ae81ff">133</span>            <span style="color:#ae81ff">8</span>            <span style="color:#ae81ff">9</span>          <span style="color:#ae81ff">116</span>
+ Bourne Shell             <span style="color:#ae81ff">5</span>          <span style="color:#ae81ff">177</span>           <span style="color:#ae81ff">38</span>           <span style="color:#ae81ff">40</span>           <span style="color:#ae81ff">99</span>
+ Plain Text               <span style="color:#ae81ff">2</span>           <span style="color:#ae81ff">42</span>            <span style="color:#ae81ff">7</span>            <span style="color:#ae81ff">0</span>           <span style="color:#ae81ff">35</span>
+ Makefile                 <span style="color:#ae81ff">1</span>           <span style="color:#ae81ff">59</span>           <span style="color:#ae81ff">15</span>           <span style="color:#ae81ff">11</span>           <span style="color:#ae81ff">33</span>
+ HTML                     <span style="color:#ae81ff">1</span>           <span style="color:#ae81ff">10</span>            <span style="color:#ae81ff">0</span>            <span style="color:#ae81ff">0</span>           <span style="color:#ae81ff">10</span>
+ Batch                    <span style="color:#ae81ff">1</span>            <span style="color:#ae81ff">3</span>            <span style="color:#ae81ff">0</span>            <span style="color:#ae81ff">0</span>            <span style="color:#ae81ff">3</span>
 --------------------------------------------------------------------------------
- Total                  959        55731         8235         6691        40805
+ Total                  <span style="color:#ae81ff">959</span>        <span style="color:#ae81ff">55731</span>         <span style="color:#ae81ff">8235</span>         <span style="color:#ae81ff">6691</span>        <span style="color:#ae81ff">40805</span>
 --------------------------------------------------------------------------------
 
-# The nested main source of compiler.
+<span style="color:#75715e"># The nested main source of compiler.</span>
 cd src
 loc .
 
 --------------------------------------------------------------------------------
  Language             Files        Lines        Blank      Comment         Code
 --------------------------------------------------------------------------------
- Haskell                167        35737         4334         5381        26022
- Yacc                     1          746          113            0          633
+ Haskell                <span style="color:#ae81ff">167</span>        <span style="color:#ae81ff">35737</span>         <span style="color:#ae81ff">4334</span>         <span style="color:#ae81ff">5381</span>        <span style="color:#ae81ff">26022</span>
+ Yacc                     <span style="color:#ae81ff">1</span>          <span style="color:#ae81ff">746</span>          <span style="color:#ae81ff">113</span>            <span style="color:#ae81ff">0</span>          <span style="color:#ae81ff">633</span>
 --------------------------------------------------------------------------------
- Total                  168        36483         4447         5381        26655
+ Total                  <span style="color:#ae81ff">168</span>        <span style="color:#ae81ff">36483</span>         <span style="color:#ae81ff">4447</span>         <span style="color:#ae81ff">5381</span>        <span style="color:#ae81ff">26655</span>
 --------------------------------------------------------------------------------
-</code></pre>
-
-<p>I won&rsquo;t go through the usage and syntax on PureScript,
+</code></pre></div><p>I won't go through the usage and syntax on PureScript,
 but you can easily go through it by the really awesome <a href="https://leanpub.com/purescript/read">document</a>.</p>
-
 <h1 id="structure-of-purescript-compiler">Structure of PureScript Compiler</h1>
-
-<p>To build up purescript compiler, all you need is <code>stack</code> and it&rsquo;s well engineered to setup all things easily.</p>
-
+<p>To build up purescript compiler, all you need is <code>stack</code> and it's well engineered to setup all things easily.</p>
 <pre><code>git clone https://github.com/purescript/purescript.git
 cd purescript
 
@@ -131,20 +115,14 @@ make build
 # Run the compiler executable.
 make run
 # Or stack exec purs
-</code></pre>
-
-<p>The important directory in the main repository:</p>
-
+</code></pre><p>The important directory in the main repository:</p>
 <ul>
 <li><strong>app</strong>: main entry point of purescript compiler.</li>
 <li><strong>src</strong>: the core compiler code.</li>
 <li><strong>tests</strong>: unit and integration tests.</li>
 </ul>
-
 <p>You can also dive into the makefile for common utilities for faster development (i.e. ghcid).</p>
-
 <h1 id="the-core-data-structure">The Core Data Structure</h1>
-
 <p>To understand a compiler, getting familiar the core data structure is often a good idea.
 The core data structure of compiler is an abstract syntax tree,
 which represented syntactic structure of a program deriving from context-free grammar.

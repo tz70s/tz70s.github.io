@@ -35,74 +35,52 @@
       <div class="post">
         <h2 class="post-title"><a href="https://tz70s.github.io/drafts/play-llvm-with-haskell/">Play LLVM with Haskell</a></h2>
         <div class="post-content">
-          
-
-<p>最近玩了一下 Haskell 的 LLVM binding，對照著這強烈推薦精美的 <a href="http://www.stephendiehl.com/llvm/">Post</a> 來實作，
+          <p>最近玩了一下 Haskell 的 LLVM binding，對照著這強烈推薦精美的 <a href="http://www.stephendiehl.com/llvm/">Post</a> 來實作，
 覺得蠻有趣。只不過雖然這篇文章寫的精巧又完整，但內容有點過時，例如類型錯誤、以及使用低抽象的 binding APIs，所以我大致紀錄一下我修改過的版本。</p>
-
 <h1 id="setup">Setup</h1>
-
 <p>我使用的 Haskell 版本是 GHC 8.6.5，然後 LLVM 的相依我是直接用 Homebrew 裝，
 雖然我本身已經有用 Homebrew 裝 LLVM 了，但 llvm-hs 有提供一個加版本號的 formula，自動幫你 build dynamic library，
 適用懶人也沒遇到什麼衝突的問題。但這有一個問題就是有點過肥，所以最好還是乖乖改一下 formula 或是自己 cmake build 一下。可以參考一下<a href="https://github.com/llvm-hs/llvm-hs#installing-llvm">完整的指令</a>。</p>
-
 <p>剩下就是把 dependency 拉一拉：</p>
-
-<h4 id="stack-yaml">stack.yaml</h4>
-
-<pre><code class="language-yaml">extra-deps:
-- llvm-hs-8.0.0
-- llvm-hs-pure-8.0.0
-</code></pre>
-
-<h4 id="cabal">*.cabal</h4>
-
+<h4 id="stackyaml">stack.yaml</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">extra-deps:
+- llvm-hs<span style="color:#ae81ff">-8.0</span><span style="color:#ae81ff">.0</span>
+- llvm-hs-pure<span style="color:#ae81ff">-8.0</span><span style="color:#ae81ff">.0</span>
+</code></pre></div><h4 id="cabal">*.cabal</h4>
 <pre><code>build-depends: base &gt;= 4.7 &amp;&amp; &lt; 5
              , llvm-hs
              , llvm-hs-pure
              , ...
-</code></pre>
-
-<p>完整可以參考<a href="https://github.com/tz70s/hsllvm">這裡</a>。</p>
-
+</code></pre><p>完整可以參考<a href="https://github.com/tz70s/hsllvm">這裡</a>。</p>
 <h1 id="kaleidoscope">Kaleidoscope</h1>
-
 <p>Kaleidoscope 是 LLVM Tutorial 的語言，有各種版本，那我的實作也是用這個來實驗，主要前端是用 Parsec 嚕的，
 這相對找得到資源，所以我就不贅述了，可以直接參考這些文章：<a href="http://www.stephendiehl.com/llvm/">Post</a>, <a href="http://dev.stephendiehl.com/fun/002_parsers.html">Write You a Haskell</a> 以及其他我沒看過的 <a href="https://github.com/haskell/parsec">link</a>。</p>
-
 <p>所以我們直接從 AST 開始看：我有延伸一些類型，讓 evaluation 會稍微有趣一點，但也沒有差太多。
 Root 是在 Expr，往下有 literal expression, variable expression, binary expression, call expression 和 statement (Stmt)。Stmt 理則是 function definition 和 extern。
 大致差不多，可以看一下原文對照一下。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#66d9ef">module</span> Syntax (<span style="color:#f92672">..</span>) <span style="color:#66d9ef">where</span>
 
-<pre><code class="language-haskell">module Syntax (..) where
+<span style="color:#66d9ef">type</span> <span style="color:#66d9ef">Name</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">String</span>
 
-type Name = String
+<span style="color:#75715e">-- | Root of AST.</span>
+<span style="color:#66d9ef">data</span> <span style="color:#66d9ef">Expr</span>
+  <span style="color:#f92672">=</span> <span style="color:#66d9ef">LitExpr</span> <span style="color:#66d9ef">Literal</span>
+  <span style="color:#f92672">|</span> <span style="color:#66d9ef">Var</span> <span style="color:#66d9ef">Name</span>
+  <span style="color:#f92672">|</span> <span style="color:#66d9ef">BinExpr</span> <span style="color:#66d9ef">Op</span> <span style="color:#66d9ef">Expr</span> <span style="color:#66d9ef">Expr</span>
+  <span style="color:#f92672">|</span> <span style="color:#66d9ef">Call</span> <span style="color:#66d9ef">Name</span> [<span style="color:#66d9ef">Expr</span>]
+  <span style="color:#f92672">|</span> <span style="color:#66d9ef">Statement</span> <span style="color:#66d9ef">Stmt</span>
+  <span style="color:#66d9ef">deriving</span> (<span style="color:#66d9ef">Eq</span>, <span style="color:#66d9ef">Ord</span>, <span style="color:#66d9ef">Show</span>)
 
--- | Root of AST.
-data Expr
-  = LitExpr Literal
-  | Var Name
-  | BinExpr Op Expr Expr
-  | Call Name [Expr]
-  | Statement Stmt
-  deriving (Eq, Ord, Show)
+<span style="color:#66d9ef">data</span> <span style="color:#66d9ef">Stmt</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">Function</span> <span style="color:#66d9ef">Name</span> [<span style="color:#66d9ef">Expr</span>] <span style="color:#66d9ef">Expr</span> <span style="color:#f92672">|</span> <span style="color:#66d9ef">Extern</span> <span style="color:#66d9ef">Name</span> [<span style="color:#66d9ef">Expr</span>] <span style="color:#66d9ef">deriving</span> (<span style="color:#66d9ef">Eq</span>, <span style="color:#66d9ef">Ord</span>, <span style="color:#66d9ef">Show</span>)
 
-data Stmt = Function Name [Expr] Expr | Extern Name [Expr] deriving (Eq, Ord, Show)
+<span style="color:#66d9ef">data</span> <span style="color:#66d9ef">Literal</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">IntL</span> <span style="color:#66d9ef">Integer</span> <span style="color:#f92672">|</span> <span style="color:#66d9ef">DoubleL</span> <span style="color:#66d9ef">Double</span> <span style="color:#f92672">|</span> <span style="color:#66d9ef">StringL</span> <span style="color:#66d9ef">String</span> <span style="color:#66d9ef">deriving</span> (<span style="color:#66d9ef">Eq</span>, <span style="color:#66d9ef">Ord</span>, <span style="color:#66d9ef">Show</span>)
 
-data Literal = IntL Integer | DoubleL Double | StringL String deriving (Eq, Ord, Show)
-
-data Op = Plus | Minus | Mult | Divide deriving (Eq, Ord, Show)
-</code></pre>
-
-<p>接下來就直接切入正題。</p>
-
+<span style="color:#66d9ef">data</span> <span style="color:#66d9ef">Op</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">Plus</span> <span style="color:#f92672">|</span> <span style="color:#66d9ef">Minus</span> <span style="color:#f92672">|</span> <span style="color:#66d9ef">Mult</span> <span style="color:#f92672">|</span> <span style="color:#66d9ef">Divide</span> <span style="color:#66d9ef">deriving</span> (<span style="color:#66d9ef">Eq</span>, <span style="color:#66d9ef">Ord</span>, <span style="color:#66d9ef">Show</span>)
+</code></pre></div><p>接下來就直接切入正題。</p>
 <h1 id="llvm">LLVM</h1>
-
 <h1 id="llvm-hs-pure-core-types">llvm-hs(-pure) Core Types</h1>
-
-<pre><code class="language-haskell">newtype IRBuilderT
-</code></pre>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#66d9ef">newtype</span> <span style="color:#66d9ef">IRBuilderT</span>
+</code></pre></div>
         </div>
       </div>
     </div>

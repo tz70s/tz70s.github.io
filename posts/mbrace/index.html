@@ -37,202 +37,150 @@
           <h2 class="post-title"><a href="https://tz70s.github.io/posts/mbrace/">Note - MBrace: Cloud Computing with Monads</a></h2>
           <span class="post-date">Sep 7, 2018 </span>
           <div class="post-content">
-            
-
-<p>Programming large-scale distributed systems is difficult and requires expert programmers orchestrating concurrent processes across various physical places (nodes), and potentially required to be scalable, resilient, etc. Choosing a well abstraction framework can reduce such efforts and make system performant and resilient.</p>
-
+            <p>Programming large-scale distributed systems is difficult and requires expert programmers orchestrating concurrent processes across various physical places (nodes), and potentially required to be scalable, resilient, etc. Choosing a well abstraction framework can reduce such efforts and make system performant and resilient.</p>
 <p>For example,</p>
-
 <ol>
 <li>MapReduce</li>
 <li>Akka</li>
 <li>CloudHaskell<a href="https://www.microsoft.com/en-us/research/wp-content/uploads/2016/07/remote.pdf">[1]</a> and HdpH<a href="http://www.macs.hw.ac.uk/cs/techreps/docs/files/HW-MACS-TR-0091.pdf">[2]</a></li>
 </ol>
-
 <p>However, problematics on MapReduce model: less expressive and not suitable for streaming, iterative and incremental algorithms. (NOTE: the motivation is less persuasive, IMHO)</p>
-
-<h2 id="mbrace-programming-model-and-execution-framework-for-cloud">MBrace - programming model and execution framework for cloud</h2>
-
+<h2 id="mbrace---programming-model-and-execution-framework-for-cloud">MBrace - programming model and execution framework for cloud</h2>
 <p>Features:</p>
-
 <ul>
-<li><p>Compositional and declarative approach to describing distributed computations, by <strong>monad</strong>.</p>
-
-<pre><code class="language-fsharp"># a fork-join pattern
-cloud {
-let job1 = cloud { return 1 }
-let job2 = cloud { return 2 }
-let! [| result1 ; result2 |] =
-Cloud.Parallel [| job1 ; job2 |]
-return result1 + result2
-}
-</code></pre></li>
-
-<li><p>Scalable MBrace runtime that enables distributed abstract machine execution for cloud workflows (enable location transparency).</p></li>
-
-<li><p>Rich client tooling, cloud workflow libraries, REPL and IDE integration.</p></li>
+<li>Compositional and declarative approach to describing distributed computations, by <strong>monad</strong>.</li>
 </ul>
-
-<h1 id="programming-model-cloud-workflows">Programming Model - Cloud Workflows</h1>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="color:#f92672">#</span> a fork<span style="color:#f92672">-</span>join pattern
+cloud <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">let</span> job1 <span style="color:#f92672">=</span> cloud <span style="color:#f92672">{</span> <span style="color:#66d9ef">return</span> 1 <span style="color:#f92672">}</span>
+  <span style="color:#66d9ef">let</span> job2 <span style="color:#f92672">=</span> cloud <span style="color:#f92672">{</span> <span style="color:#66d9ef">return</span> 2 <span style="color:#f92672">}</span>
+  <span style="color:#66d9ef">let</span><span style="color:#f92672">!</span> <span style="color:#f92672">[|</span> result1 <span style="color:#f92672">;</span> result2 <span style="color:#f92672">|]</span> <span style="color:#f92672">=</span>
+    Cloud.Parallel <span style="color:#f92672">[|</span> job1 <span style="color:#f92672">;</span> job2 <span style="color:#f92672">|]</span>
+  <span style="color:#66d9ef">return</span> result1 <span style="color:#f92672">+</span> result2
+<span style="color:#f92672">}</span>
+</code></pre></div><ul>
+<li>Scalable MBrace runtime that enables distributed abstract machine execution for cloud workflows (enable location transparency).</li>
+<li>Rich client tooling, cloud workflow libraries, REPL and IDE integration.</li>
+</ul>
+<h1 id="programming-model---cloud-workflows">Programming Model - Cloud Workflows</h1>
 <p>The programming model provides the ability to declare abstract and modal expressions in a fluent, integrated manner, to be subsequently executed in the cloud, powered by monad.</p>
-
-<h2 id="preliminary-f-async-workflows">Preliminary - F# Async Workflows</h2>
-
+<h2 id="preliminary---f-async-workflows">Preliminary - F# Async Workflows</h2>
 <p>Asnychronous workflows avoid the need of explicit callbacks,</p>
-
-<pre><code class="language-fsharp">let download (url : Uri) = async {
-  let http = new System.Net.WebClient()
-  # The let! denotes the callback passed to the right-hand-side operation.
-  # let! : monadic bind, return : monadic unit
-  let! html = http.AsyncDownloadString(url)
-  return html.Split('\n')
-}
-</code></pre>
-
-<p>Composition,</p>
-
-<pre><code class="language-fsharp">let workflow = async {
-  let! results =
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="color:#66d9ef">let</span> download <span style="color:#f92672">(</span>url <span style="color:#f92672">:</span> Uri<span style="color:#f92672">)</span> <span style="color:#f92672">=</span> async <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">let</span> http <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> System.Net.WebClient()
+  <span style="color:#f92672">#</span> The <span style="color:#66d9ef">let!</span> denotes the callback passed <span style="color:#66d9ef">to</span> the right<span style="color:#f92672">-</span>hand<span style="color:#f92672">-</span>side operation<span style="color:#f92672">.</span>
+  <span style="color:#f92672">#</span> <span style="color:#66d9ef">let</span><span style="color:#f92672">!</span> <span style="color:#f92672">:</span> monadic bind<span style="color:#f92672">,</span> <span style="color:#66d9ef">return</span> <span style="color:#f92672">:</span> monadic <span style="color:#66d9ef">unit</span>
+  <span style="color:#66d9ef">let!</span> html <span style="color:#f92672">=</span> http<span style="color:#f92672">.</span>AsyncDownloadString<span style="color:#f92672">(</span>url<span style="color:#f92672">)</span>
+  <span style="color:#66d9ef">return</span> html<span style="color:#f92672">.</span>Split<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;\n&#39;</span><span style="color:#f92672">)</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Composition,</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="color:#66d9ef">let</span> workflow <span style="color:#f92672">=</span> async <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">let!</span> results <span style="color:#f92672">=</span>
     Async.Parallel
-      [
-        download &quot;http://www.google.com&quot;;
-        download &quot;http://www.facebook.com&quot;
-      ]
-  return Seq.concat results |&gt; Seq.length
-}
-</code></pre>
-
-<p>Async expressions have deferred execution semantics: evaluted by a scheduler that tranparently allocates pending jobs to the underlying .NET thread pool.</p>
-
+      <span style="color:#f92672">[</span>
+        download <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">http://www.google.com</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">;</span>
+        download <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">http://www.facebook.com</span><span style="color:#e6db74">&#34;</span>
+      <span style="color:#f92672">]</span>
+  <span style="color:#66d9ef">return</span> Seq.concat results <span style="color:#f92672">|</span><span style="color:#f92672">&gt;</span> Seq.length
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Async expressions have deferred execution semantics: evaluted by a scheduler that tranparently allocates pending jobs to the underlying .NET thread pool.</p>
 <h2 id="the-cloud-workflow-programming-model">The Cloud Workflow Programming Model</h2>
-
-<p>Similar to F# async workflows, the <code>Cloud&lt;'T&gt;</code> represented a deferred cloud computation that returns a result of type &rsquo;T once executed. The closure can be also passed transparently, that we can descirbe higher-order functions to compose cloud workflow. An important feature offered by cloud workflows is exception handling: the symbolic execution stack winds across multiple machines, the computation stack is un-winded across multiple machines as well. (Implement via free continuation monad<a href="http://blog.higher-order.com/assets/trampolines.pdf">[3]</a>)</p>
-
+<p>Similar to F# async workflows, the <code>Cloud&lt;'T&gt;</code> represented a deferred cloud computation that returns a result of type &lsquo;T once executed. The closure can be also passed transparently, that we can descirbe higher-order functions to compose cloud workflow. An important feature offered by cloud workflows is exception handling: the symbolic execution stack winds across multiple machines, the computation stack is un-winded across multiple machines as well. (Implement via free continuation monad<a href="http://blog.higher-order.com/assets/trampolines.pdf">[3]</a>)</p>
 <p>MBrace also provides some combination operators for parallel processing:</p>
-
 <ul>
 <li><code>Cloud.Parallel : Cloud&lt;'T&gt; [] -&gt; Cloud&lt;'T []&gt;</code></li>
 <li><code>&lt;||&gt; : Cloud&lt;'T&gt; -&gt; Cloud&lt;'U&gt; -&gt; Cloud&lt;'T * U&gt;</code></li>
 <li><code>Cloud.Choice : Cloud&lt;'T option&gt; [] -&gt; Cloud&lt;'T option&gt;</code></li>
 </ul>
-
-<p>Here&rsquo;s some example code snippet in paper,</p>
-
+<p>Here's some example code snippet in paper,</p>
 <h3 id="mapreduce">MapReduce</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="color:#66d9ef">let</span> rec mapReduce <span style="color:#f92672">(</span>map<span style="color:#f92672">:</span> <span style="color:#66d9ef">&#39;</span>T <span style="color:#f92672">-&gt;</span> Cloud<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">&#39;</span>R<span style="color:#f92672">&gt;</span><span style="color:#f92672">)</span>
+                  <span style="color:#f92672">(</span>reduce<span style="color:#f92672">:</span> <span style="color:#66d9ef">&#39;</span>R <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">&#39;</span>R <span style="color:#f92672">-&gt;</span> Cloud<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">&#39;</span>R<span style="color:#f92672">&gt;</span><span style="color:#f92672">)</span>
+                  <span style="color:#f92672">(</span>identity<span style="color:#f92672">:</span> <span style="color:#66d9ef">&#39;</span>R<span style="color:#f92672">)</span>
+                  <span style="color:#f92672">(</span>input<span style="color:#f92672">:</span> <span style="color:#66d9ef">&#39;</span>T <span style="color:#66d9ef">list</span><span style="color:#f92672">)</span> <span style="color:#f92672">=</span>
+  cloud <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">match</span> input <span style="color:#66d9ef">with</span>
+    <span style="color:#f92672">|</span> [] <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">return</span> identity
+    <span style="color:#f92672">|</span> <span style="color:#f92672">[</span>value<span style="color:#f92672">]</span> <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">return</span><span style="color:#f92672">!</span> map value
+    <span style="color:#f92672">|</span> <span style="color:#f92672">_</span> <span style="color:#f92672">-&gt;</span>
+      <span style="color:#66d9ef">let</span> left<span style="color:#f92672">,</span> right <span style="color:#f92672">=</span> List.split input
+      <span style="color:#66d9ef">let!</span> r1<span style="color:#f92672">,</span> r2 <span style="color:#f92672">=</span> 
+        <span style="color:#f92672">(</span>mapReduce map reduce identity left<span style="color:#f92672">)</span>
+          <span style="color:#f92672">&lt;</span><span style="color:#f92672">|</span><span style="color:#f92672">|</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">(</span>mapReduce map reduce identity right<span style="color:#f92672">)</span>
 
-<pre><code class="language-fsharp">let rec mapReduce (map: 'T -&gt; Cloud&lt;'R&gt;)
-                  (reduce: 'R -&gt; 'R -&gt; Cloud&lt;'R&gt;)
-                  (identity: 'R)
-                  (input: 'T list) =
-  cloud {
-    match input with
-    | [] -&gt; return identity
-    | [value] -&gt; return! map value
-    | _ -&gt;
-      let left, right = List.split input
-      let! r1, r2 = 
-        (mapReduce map reduce identity left)
-          &lt;||&gt;
-        (mapReduce map reduce identity right)
-
-      return! reduce r1 r2
-  }
-</code></pre>
-
-<h3 id="nondeterministic-computation">Nondeterministic Computation</h3>
-
-<pre><code class="language-fsharp">let exists (f : 'T -&gt; Cloud&lt;bool&gt;) (inputs: 'T []) =
-  cloud {
-    let pick (x : 'T) =
-      cloud {
-        let! result = f x
-        return if result then Some x else None
-      }
-    # In Scala words: Cloud.Choice inputs.map(pick)
-    # Similar to forall operation.
-    let! result = Cloud.Choice &lt;| Array.map pick inputs
-    return result.IsSome
-  }
-</code></pre>
-
-<h3 id="local-parallelism">Local Parallelism</h3>
-
+      <span style="color:#66d9ef">return</span><span style="color:#f92672">!</span> reduce r1 r2
+  <span style="color:#f92672">}</span>
+</code></pre></div><h3 id="nondeterministic-computation">Nondeterministic Computation</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="color:#66d9ef">let</span> exists <span style="color:#f92672">(</span>f <span style="color:#f92672">:</span> <span style="color:#66d9ef">&#39;</span>T <span style="color:#f92672">-&gt;</span> Cloud<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">bool</span><span style="color:#f92672">&gt;</span><span style="color:#f92672">)</span> <span style="color:#f92672">(</span>inputs<span style="color:#f92672">:</span> <span style="color:#66d9ef">&#39;</span>T []<span style="color:#f92672">)</span> <span style="color:#f92672">=</span>
+  cloud <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">let</span> pick <span style="color:#f92672">(</span>x <span style="color:#f92672">:</span> <span style="color:#66d9ef">&#39;</span>T<span style="color:#f92672">)</span> <span style="color:#f92672">=</span>
+      cloud <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">let!</span> result <span style="color:#f92672">=</span> f x
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">if</span> result <span style="color:#66d9ef">then</span> Some x <span style="color:#66d9ef">else</span> None
+      <span style="color:#f92672">}</span>
+    <span style="color:#f92672">#</span> In Scala words<span style="color:#f92672">:</span> Cloud.Choice inputs<span style="color:#f92672">.</span>map<span style="color:#f92672">(</span>pick<span style="color:#f92672">)</span>
+    <span style="color:#f92672">#</span> Similar <span style="color:#66d9ef">to</span> forall operation<span style="color:#f92672">.</span>
+    <span style="color:#66d9ef">let!</span> result <span style="color:#f92672">=</span> Cloud.Choice <span style="color:#f92672">&lt;</span><span style="color:#f92672">|</span> Array.map pick inputs
+    <span style="color:#66d9ef">return</span> result<span style="color:#f92672">.</span>IsSome
+  <span style="color:#f92672">}</span>
+</code></pre></div><h3 id="local-parallelism">Local Parallelism</h3>
 <p>There are cases where constraining the execution of a cloud workflow in the context of single worker, i.e. useful to manage computation granularity.</p>
-
 <ul>
 <li><code>Cloud.ToLocal : Cloud&lt;'T&gt; -&gt; Cloud&lt;'T&gt;</code></li>
 </ul>
-
 <p>The local combiantor transforms any given cloud workflow into an equivalent expression that executes in a strictly local context.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="color:#66d9ef">let</span> rec fib n depth <span style="color:#f92672">=</span>
+  cloud <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">if</span> depth <span style="color:#f92672">=</span> 0 <span style="color:#66d9ef">then</span> <span style="color:#66d9ef">return</span><span style="color:#f92672">!</span> Cloud.ToLocal <span style="color:#f92672">&lt;</span><span style="color:#f92672">|</span> fib n depth
+    <span style="color:#66d9ef">else</span>
+      <span style="color:#66d9ef">match</span> n <span style="color:#66d9ef">with</span>
+      <span style="color:#f92672">|</span> 1 <span style="color:#f92672">|</span> 2 <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">return</span> 1
+      <span style="color:#f92672">|</span> n <span style="color:#f92672">-&gt;</span>
+        <span style="color:#66d9ef">let</span><span style="color:#f92672">!</span> <span style="color:#f92672">(</span>left<span style="color:#f92672">,</span> right<span style="color:#f92672">)</span> <span style="color:#f92672">=</span> fib <span style="color:#f92672">(</span>n <span style="color:#f92672">-</span> 1<span style="color:#f92672">)</span> <span style="color:#f92672">(</span>depth <span style="color:#f92672">-</span> 1<span style="color:#f92672">)</span> <span style="color:#f92672">&lt;</span><span style="color:#f92672">|</span><span style="color:#f92672">|</span><span style="color:#f92672">&gt;</span> fib <span style="color:#f92672">(</span>n <span style="color:#f92672">-</span> 2<span style="color:#f92672">)</span> <span style="color:#f92672">(</span>depth <span style="color:#f92672">-</span> 1<span style="color:#f92672">)</span>
+        <span style="color:#66d9ef">return</span> left <span style="color:#f92672">+</span> right
+  <span style="color:#f92672">}</span>
+</code></pre></div><h2 id="distributed-data">Distributed Data</h2>
+<p>This is not represented as ddata in Akka (CRDT) or any other else. It's an abstraction to manage data in a more global and massive scale. In the above example, we've limited data distribution, which is inherently local and almost certainly do not scale to the demands of modern big data application. Hence, MBrace introduced a data entities known as cloud ref, <code>CloudRef&lt;'T&gt;</code>.</p>
+<p>It's an trivial abstraction for modern application handling large blob size entity, i.e. in serverless manner, we can only pass references that point to blob storage.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="color:#66d9ef">let</span> getRef () <span style="color:#f92672">:</span> Cloud<span style="color:#f92672">&lt;</span>CloudRef<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">string</span> []<span style="color:#f92672">&gt;</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">=</span>
+  cloud <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">let!</span> data <span style="color:#f92672">=</span> download <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">http://a-big-data-place</span><span style="color:#e6db74">&#34;</span>
+    <span style="color:#66d9ef">let!</span> ref <span style="color:#f92672">=</span> CloudRef.New data
+    <span style="color:#66d9ef">return</span> ref
+  <span style="color:#f92672">}</span>
 
-<pre><code class="language-fsharp">let rec fib n depth =
-  cloud {
-    if depth = 0 then return! Cloud.ToLocal &lt;| fib n depth
-    else
-      match n with
-      | 1 | 2 -&gt; return 1
-      | n -&gt;
-        let! (left, right) = fib (n - 1) (depth - 1) &lt;||&gt; fib (n - 2) (depth - 1)
-        return left + right
-  }
-</code></pre>
-
-<h2 id="distributed-data">Distributed Data</h2>
-
-<p>This is not represented as ddata in Akka (CRDT) or any other else. It&rsquo;s an abstraction to manage data in a more global and massive scale. In the above example, we&rsquo;ve limited data distribution, which is inherently local and almost certainly do not scale to the demands of modern big data application. Hence, MBrace introduced a data entities known as cloud ref, <code>CloudRef&lt;'T&gt;</code>.</p>
-
-<p>It&rsquo;s an trivial abstraction for modern application handling large blob size entity, i.e. in serverless manner, we can only pass references that point to blob storage.</p>
-
-<pre><code class="language-fsharp">let getRef () : Cloud&lt;CloudRef&lt;string []&gt;&gt; =
-  cloud {
-    let! data = download &quot;http://a-big-data-place&quot;
-    let! ref = CloudRef.New data
-    return ref
-  }
-
-# Compute a cloud ref.
-let r = runtime.Run &lt;@ getRef () @&gt;
-# Dereference locally
-let data : string [] = r.value
-</code></pre>
-
-<p>MBrace transparently manages storage, while it also aggressively caches local copies to select worker nodes, within an affinity manner. Hence, there are two types of CloudRef design:</p>
-
+<span style="color:#f92672">#</span> Compute a cloud ref<span style="color:#f92672">.</span>
+<span style="color:#66d9ef">let</span> r <span style="color:#f92672">=</span> runtime<span style="color:#f92672">.</span>Run <span style="color:#f92672">&lt;</span><span style="color:#f92672">@</span> getRef () <span style="color:#f92672">@&gt;</span>
+<span style="color:#f92672">#</span> Dereference locally
+<span style="color:#66d9ef">let</span> data <span style="color:#f92672">:</span> <span style="color:#66d9ef">string</span> [] <span style="color:#f92672">=</span> r<span style="color:#f92672">.</span>value
+</code></pre></div><p>MBrace transparently manages storage, while it also aggressively caches local copies to select worker nodes, within an affinity manner. Hence, there are two types of CloudRef design:</p>
 <ul>
 <li>Immutable: eliminates synchronization (from cache to storage), resulting efficient caching and enhanced access speeds.</li>
-<li>Mutable: also a powerful abstraction for defining synchronization mechanisms such as distributed lock and semaphores. You can think it as volatile semantic in JVM, that it&rsquo;s not cacheable to ensure visibility.</li>
+<li>Mutable: also a powerful abstraction for defining synchronization mechanisms such as distributed lock and semaphores. You can think it as volatile semantic in JVM, that it's not cacheable to ensure visibility.</li>
 </ul>
-
 <p>What more: scoped resources, offerring a mechanism for performing deallocations in a scope. The data constructs that implement the <code>CloudDisposable</code> interface which bind to <code>use!</code> keyword.</p>
-
-<pre><code class="language-fsharp">cloud {
-  # Ensure deallocation from the global store as soon as the workflow has exited its scope!
-  use! cref = CloudRef.New [| 1 .. 10000000 |]
-  try
-    if cref.Value.Length &gt; 1000 then
-      return failwith &quot;error&quot;
-  with e -&gt;
-    do! Cloud.Logf &quot;error in cloudRef %0&quot; cref
-    return raise e
-}
-</code></pre>
-
-<h2 id="the-mbrace-runtime">The MBrace Runtime</h2>
-
-<p>An execution engine that include facilities for managing, monitoring and debugging cloud processes. The execution model follows a scheduler/worker hierarchy: when a cloud workflow is uploaded to the runtime for execution, a scheduler instance is initialized that interprets the monadic structure of the workflow, disseminating continuations to worker nodes as required. It&rsquo;s also inherently load distributed, fault tolerant for any jobs.</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp">cloud <span style="color:#f92672">{</span>
+  <span style="color:#f92672">#</span> Ensure deallocation from the <span style="color:#66d9ef">global</span> store <span style="color:#66d9ef">as</span> soon <span style="color:#66d9ef">as</span> the workflow has exited its scope<span style="color:#f92672">!</span>
+  <span style="color:#66d9ef">use</span><span style="color:#f92672">!</span> cref <span style="color:#f92672">=</span> CloudRef.New <span style="color:#f92672">[|</span> 1 <span style="color:#f92672">..</span> 10000000 <span style="color:#f92672">|]</span>
+  <span style="color:#66d9ef">try</span>
+    <span style="color:#66d9ef">if</span> cref<span style="color:#f92672">.</span>Value<span style="color:#f92672">.</span>Length <span style="color:#f92672">&gt;</span> 1000 <span style="color:#66d9ef">then</span>
+      <span style="color:#66d9ef">return</span> failwith <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">error</span><span style="color:#e6db74">&#34;</span>
+  <span style="color:#66d9ef">with</span> e <span style="color:#f92672">-&gt;</span>
+    <span style="color:#66d9ef">do</span><span style="color:#f92672">!</span> Cloud.Logf <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">error in cloudRef %0</span><span style="color:#e6db74">&#34;</span> cref
+    <span style="color:#66d9ef">return</span> raise e
+<span style="color:#f92672">}</span>
+</code></pre></div><h2 id="the-mbrace-runtime">The MBrace Runtime</h2>
+<p>An execution engine that include facilities for managing, monitoring and debugging cloud processes. The execution model follows a scheduler/worker hierarchy: when a cloud workflow is uploaded to the runtime for execution, a scheduler instance is initialized that interprets the monadic structure of the workflow, disseminating continuations to worker nodes as required. It's also inherently load distributed, fault tolerant for any jobs.</p>
 <h2 id="critics">Critics</h2>
-
-<p>This paper gives a well-started introduction for using monad in distributed programming. It&rsquo;s easy and powerful like everything you may familiar with, i.e. IO effect, Task effect or Future. Can be fluently composed into complex functiona transformation workflow. More thankfully, its <a href="https://github.com/mbraceproject/MBrace.Core">open sourced</a>! Research papers are usually restricted for describing more detail about implementation, however, we can go deeper here.</p>
-
+<p>This paper gives a well-started introduction for using monad in distributed programming. It's easy and powerful like everything you may familiar with, i.e. IO effect, Task effect or Future. Can be fluently composed into complex functiona transformation workflow. More thankfully, its <a href="https://github.com/mbraceproject/MBrace.Core">open sourced</a>! Research papers are usually restricted for describing more detail about implementation, however, we can go deeper here.</p>
 <p>For my own further readings: F# async, CloudHaskell and free continuation monad!</p>
 
           </div>
         </div>
         <div class="pagination">
           <a class="btn previous " href="https://tz70s.github.io/posts/local-mac-setup-for-data-engineering/"> Prev</a>  
-          <a class="btn next " href="https://tz70s.github.io/posts/reactive-programming/"> Next</a> 
+          <a class="btn next " href="https://tz70s.github.io/drafts/notes-on-ddia-storage-engine/"> Next</a> 
         </div>
       </div>
     </div>
