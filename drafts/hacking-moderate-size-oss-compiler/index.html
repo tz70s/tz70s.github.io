@@ -39,11 +39,11 @@
 but also plays a significant role on computer science history
 and attracts many programmers to explore the mystery.
 Both of theory foundation and engineering of compiler construction
-is hard, and I'm not an expert (even not a <em>compiler engineer</em>) at all.
+is hard, and I&rsquo;m not an expert (even not a <em>compiler engineer</em>) at all.
 However, in this post, I would like to show my experience to
 hacking <strong>PureScript</strong> compiler.</p>
 <p>Strictly speaking, this is a transpiler instead of machine code generation.
-We're almost talking about the <strong>frontend</strong> of compiler,
+We&rsquo;re almost talking about the <strong>frontend</strong> of compiler,
 including <em>lexical analysis</em>, <em>parsing</em>, <em>semantic analysis (scope, type checking)</em>
 and a relative simple, one pass code generation to Javascript.</p>
 <p>Some <strong>pre-requisition</strong> might be needed here:</p>
@@ -51,11 +51,11 @@ and a relative simple, one pass code generation to Javascript.</p>
 <li>Ability to read (and write) Haskell (in Haskell Programming from First Principle or Real World Haskell level.)</li>
 <li>Maybe some undergraduate level compiler knowledge (i.e. regular expression, context free grammar, abstract syntax tree and simple code generation).</li>
 </ul>
-<p>Note that you don't actually needs to know every theory foundation
+<p>Note that you don&rsquo;t actually needs to know every theory foundation
 in dragon book or others.
 But theory makes you more confident to correctly construct compiler though.</p>
 <p>I would recommend <a href="http://craftinginterpreters.com">Crafting Interpreters</a>, <a href="http://web.stanford.edu/class/cs143/index2018.html">Stanford CS143</a> and <a href="https://www.amazon.com/Engineering-Compiler-Keith-Cooper/dp/012088478X">Engineering a Compiler</a>.</p>
-<p>For some advanced knowledge, I'll link them when we reach out.</p>
+<p>For some advanced knowledge, I&rsquo;ll link them when we reach out.</p>
 <h1 id="purescript">PureScript</h1>
 <p>PureScript is a language transpiled into Javascript for web frontend (almost) programming.
 The syntax is similar to Haskell as well as the powerful type system,
@@ -101,10 +101,10 @@ loc .
 --------------------------------------------------------------------------------
  Total                  <span style="color:#ae81ff">168</span>        <span style="color:#ae81ff">36483</span>         <span style="color:#ae81ff">4447</span>         <span style="color:#ae81ff">5381</span>        <span style="color:#ae81ff">26655</span>
 --------------------------------------------------------------------------------
-</code></pre></div><p>I won't go through the usage and syntax on PureScript,
+</code></pre></div><p>I won&rsquo;t go through the usage and syntax on PureScript,
 but you can easily go through it by the really awesome <a href="https://leanpub.com/purescript/read">document</a>.</p>
 <h1 id="structure-of-purescript-compiler">Structure of PureScript Compiler</h1>
-<p>To build up purescript compiler, all you need is <code>stack</code> and it's well engineered to setup all things easily.</p>
+<p>To build up purescript compiler, all you need is <code>stack</code> and it&rsquo;s well engineered to setup all things easily.</p>
 <pre><code>git clone https://github.com/purescript/purescript.git
 cd purescript
 

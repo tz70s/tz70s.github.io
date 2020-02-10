@@ -43,7 +43,7 @@
 適用懶人也沒遇到什麼衝突的問題。但這有一個問題就是有點過肥，所以最好還是乖乖改一下 formula 或是自己 cmake build 一下。可以參考一下<a href="https://github.com/llvm-hs/llvm-hs#installing-llvm">完整的指令</a>。</p>
 <p>剩下就是把 dependency 拉一拉：</p>
 <h4 id="stackyaml">stack.yaml</h4>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">extra-deps:
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">extra-deps</span>:
 - llvm-hs<span style="color:#ae81ff">-8.0</span><span style="color:#ae81ff">.0</span>
 - llvm-hs-pure<span style="color:#ae81ff">-8.0</span><span style="color:#ae81ff">.0</span>
 </code></pre></div><h4 id="cabal">*.cabal</h4>

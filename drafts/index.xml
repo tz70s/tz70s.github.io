@@ -29,7 +29,7 @@ Kaleidoscope Kaleidoscope 是 LLVM Tutorial 的語言，有各種版本，那我
       <pubDate>Tue, 14 May 2019 00:00:00 +0000</pubDate>
       
       <guid>https://tz70s.github.io/drafts/hacking-moderate-size-oss-compiler/</guid>
-      <description>Compiler is a well-known complex software to build, but also plays a significant role on computer science history and attracts many programmers to explore the mystery. Both of theory foundation and engineering of compiler construction is hard, and I&#39;m not an expert (even not a compiler engineer) at all. However, in this post, I would like to show my experience to hacking PureScript compiler.
+      <description>Compiler is a well-known complex software to build, but also plays a significant role on computer science history and attracts many programmers to explore the mystery. Both of theory foundation and engineering of compiler construction is hard, and I&amp;rsquo;m not an expert (even not a compiler engineer) at all. However, in this post, I would like to show my experience to hacking PureScript compiler.
 Strictly speaking, this is a transpiler instead of machine code generation.</description>
     </item>
     

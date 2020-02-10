@@ -37,8 +37,8 @@
           <h2 class="post-title"><a href="https://tz70s.github.io/posts/gsoc-2018/">Google Summer of Code</a></h2>
           <span class="post-date">Aug 13, 2018 </span>
           <div class="post-content">
-            <p>This is a post to identify what I've done in Google Summer of Code 2018. It's summarized in brief and non-technical, you can refer to more detail in the following links.</p>
-<p>Links to what I've done:</p>
+            <p>This is a post to identify what I&rsquo;ve done in Google Summer of Code 2018. It&rsquo;s summarized in brief and non-technical, you can refer to more detail in the following links.</p>
+<p>Links to what I&rsquo;ve done:</p>
 <ol>
 <li><a href="https://tz70s.github.io/posts/openwhisk-performance-improvement/">In-detail post about OpenWhisk performance improvement experiment.</a></li>
 <li><a href="https://github.com/tz70s/incubator-openwhisk/tree/whisk-future-rebase">Main repo/branch for experiment.</a></li>
@@ -47,11 +47,11 @@
 <li><a href="https://github.com/apache/incubator-openwhisk/commits/master?author=tz70s">Commits on OpenWhisk main repo during GSoC progress.</a></li>
 </ol>
 <h2 id="the-journey">The Journey</h2>
-<p>At first, my original <a href="https://summerofcode.withgoogle.com/projects/#5174720182353920">GSoC proposal: OpenWhisk performance improvement - work stealing, priority-based scheduling on load balancer and direct connection for streaming capabilities.</a> is not in the right direction because of less consideration and familiarity with OpenWhisk codebase. During the first period, the performance improvement issues are getting more complex after few proposals raised from folks [<a href="https://cwiki.apache.org/confluence/display/OPENWHISK/OpenWhisk+future+architecture?src=contextnavpagetreemode">1</a>][<a href="https://cwiki.apache.org/confluence/display/OPENWHISK/Autonomous+Container+Scheduling">2</a>][<a href="https://cwiki.apache.org/confluence/display/OPENWHISK/Clustered+Singleton+Invoker+for+HA+on+Mesos">3</a>]; it's hard to write the real production code without a consistent direction. However, I think communities are nowadays getting closer to future architecture, but it still needs time to clear most of known issues.</p>
-<p>Therefore, I've proposed a mid-ground prototype experiment aproximate 3000 lines of code changes for exploring any issues on OpenWhisk future architecture: latency gains, performance bottleneck, migration path, resiliency, etc. Not that comprehensive, but hope to stand for exploring what we should further concerned and what we get missed. It's also nice to make myself to learn from existing codebase and getting more familiar to follow up fast moves from talents in OpenWhisk community.</p>
+<p>At first, my original <a href="https://summerofcode.withgoogle.com/projects/#5174720182353920">GSoC proposal: OpenWhisk performance improvement - work stealing, priority-based scheduling on load balancer and direct connection for streaming capabilities.</a> is not in the right direction because of less consideration and familiarity with OpenWhisk codebase. During the first period, the performance improvement issues are getting more complex after few proposals raised from folks [<a href="https://cwiki.apache.org/confluence/display/OPENWHISK/OpenWhisk+future+architecture?src=contextnavpagetreemode">1</a>][<a href="https://cwiki.apache.org/confluence/display/OPENWHISK/Autonomous+Container+Scheduling">2</a>][<a href="https://cwiki.apache.org/confluence/display/OPENWHISK/Clustered+Singleton+Invoker+for+HA+on+Mesos">3</a>]; it&rsquo;s hard to write the real production code without a consistent direction. However, I think communities are nowadays getting closer to future architecture, but it still needs time to clear most of known issues.</p>
+<p>Therefore, I&rsquo;ve proposed a mid-ground prototype experiment aproximate 3000 lines of code changes for exploring any issues on OpenWhisk future architecture: latency gains, performance bottleneck, migration path, resiliency, etc. Not that comprehensive, but hope to stand for exploring what we should further concerned and what we get missed. It&rsquo;s also nice to make myself to learn from existing codebase and getting more familiar to follow up fast moves from talents in OpenWhisk community.</p>
 <h2 id="future-improvement--plans">Future improvement &amp; plans</h2>
 <ol>
-<li>I'll do some supplement works on improving existing OpenWhisk codebase by fixing bugs and improve tests, i.e. some issues I've found during the experiment progress: tracing support, invoker-agent, kube-related calls, etc.</li>
+<li>I&rsquo;ll do some supplement works on improving existing OpenWhisk codebase by fixing bugs and improve tests, i.e. some issues I&rsquo;ve found during the experiment progress: tracing support, invoker-agent, kube-related calls, etc.</li>
 <li>Improve this experiment (plenty of issues described in the in-detail post) and discuss with community.</li>
 <li>Keep join and contributing to make the performance improvement real.</li>
 </ol>

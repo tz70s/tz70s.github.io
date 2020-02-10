@@ -92,7 +92,7 @@ cloud <span style="color:#f92672">{</span>
 <li><code>&lt;||&gt; : Cloud&lt;'T&gt; -&gt; Cloud&lt;'U&gt; -&gt; Cloud&lt;'T * U&gt;</code></li>
 <li><code>Cloud.Choice : Cloud&lt;'T option&gt; [] -&gt; Cloud&lt;'T option&gt;</code></li>
 </ul>
-<p>Here's some example code snippet in paper,</p>
+<p>Here&rsquo;s some example code snippet in paper,</p>
 <h3 id="mapreduce">MapReduce</h3>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="color:#66d9ef">let</span> rec mapReduce <span style="color:#f92672">(</span>map<span style="color:#f92672">:</span> <span style="color:#66d9ef">&#39;</span>T <span style="color:#f92672">-&gt;</span> Cloud<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">&#39;</span>R<span style="color:#f92672">&gt;</span><span style="color:#f92672">)</span>
                   <span style="color:#f92672">(</span>reduce<span style="color:#f92672">:</span> <span style="color:#66d9ef">&#39;</span>R <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">&#39;</span>R <span style="color:#f92672">-&gt;</span> Cloud<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">&#39;</span>R<span style="color:#f92672">&gt;</span><span style="color:#f92672">)</span>
@@ -141,8 +141,8 @@ cloud <span style="color:#f92672">{</span>
         <span style="color:#66d9ef">return</span> left <span style="color:#f92672">+</span> right
   <span style="color:#f92672">}</span>
 </code></pre></div><h2 id="distributed-data">Distributed Data</h2>
-<p>This is not represented as ddata in Akka (CRDT) or any other else. It's an abstraction to manage data in a more global and massive scale. In the above example, we've limited data distribution, which is inherently local and almost certainly do not scale to the demands of modern big data application. Hence, MBrace introduced a data entities known as cloud ref, <code>CloudRef&lt;'T&gt;</code>.</p>
-<p>It's an trivial abstraction for modern application handling large blob size entity, i.e. in serverless manner, we can only pass references that point to blob storage.</p>
+<p>This is not represented as ddata in Akka (CRDT) or any other else. It&rsquo;s an abstraction to manage data in a more global and massive scale. In the above example, we&rsquo;ve limited data distribution, which is inherently local and almost certainly do not scale to the demands of modern big data application. Hence, MBrace introduced a data entities known as cloud ref, <code>CloudRef&lt;'T&gt;</code>.</p>
+<p>It&rsquo;s an trivial abstraction for modern application handling large blob size entity, i.e. in serverless manner, we can only pass references that point to blob storage.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp"><span style="color:#66d9ef">let</span> getRef () <span style="color:#f92672">:</span> Cloud<span style="color:#f92672">&lt;</span>CloudRef<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">string</span> []<span style="color:#f92672">&gt;</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">=</span>
   cloud <span style="color:#f92672">{</span>
     <span style="color:#66d9ef">let!</span> data <span style="color:#f92672">=</span> download <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">http://a-big-data-place</span><span style="color:#e6db74">&#34;</span>
@@ -157,7 +157,7 @@ cloud <span style="color:#f92672">{</span>
 </code></pre></div><p>MBrace transparently manages storage, while it also aggressively caches local copies to select worker nodes, within an affinity manner. Hence, there are two types of CloudRef design:</p>
 <ul>
 <li>Immutable: eliminates synchronization (from cache to storage), resulting efficient caching and enhanced access speeds.</li>
-<li>Mutable: also a powerful abstraction for defining synchronization mechanisms such as distributed lock and semaphores. You can think it as volatile semantic in JVM, that it's not cacheable to ensure visibility.</li>
+<li>Mutable: also a powerful abstraction for defining synchronization mechanisms such as distributed lock and semaphores. You can think it as volatile semantic in JVM, that it&rsquo;s not cacheable to ensure visibility.</li>
 </ul>
 <p>What more: scoped resources, offerring a mechanism for performing deallocations in a scope. The data constructs that implement the <code>CloudDisposable</code> interface which bind to <code>use!</code> keyword.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fsharp" data-lang="fsharp">cloud <span style="color:#f92672">{</span>
@@ -171,9 +171,9 @@ cloud <span style="color:#f92672">{</span>
     <span style="color:#66d9ef">return</span> raise e
 <span style="color:#f92672">}</span>
 </code></pre></div><h2 id="the-mbrace-runtime">The MBrace Runtime</h2>
-<p>An execution engine that include facilities for managing, monitoring and debugging cloud processes. The execution model follows a scheduler/worker hierarchy: when a cloud workflow is uploaded to the runtime for execution, a scheduler instance is initialized that interprets the monadic structure of the workflow, disseminating continuations to worker nodes as required. It's also inherently load distributed, fault tolerant for any jobs.</p>
+<p>An execution engine that include facilities for managing, monitoring and debugging cloud processes. The execution model follows a scheduler/worker hierarchy: when a cloud workflow is uploaded to the runtime for execution, a scheduler instance is initialized that interprets the monadic structure of the workflow, disseminating continuations to worker nodes as required. It&rsquo;s also inherently load distributed, fault tolerant for any jobs.</p>
 <h2 id="critics">Critics</h2>
-<p>This paper gives a well-started introduction for using monad in distributed programming. It's easy and powerful like everything you may familiar with, i.e. IO effect, Task effect or Future. Can be fluently composed into complex functiona transformation workflow. More thankfully, its <a href="https://github.com/mbraceproject/MBrace.Core">open sourced</a>! Research papers are usually restricted for describing more detail about implementation, however, we can go deeper here.</p>
+<p>This paper gives a well-started introduction for using monad in distributed programming. It&rsquo;s easy and powerful like everything you may familiar with, i.e. IO effect, Task effect or Future. Can be fluently composed into complex functiona transformation workflow. More thankfully, its <a href="https://github.com/mbraceproject/MBrace.Core">open sourced</a>! Research papers are usually restricted for describing more detail about implementation, however, we can go deeper here.</p>
 <p>For my own further readings: F# async, CloudHaskell and free continuation monad!</p>
 
           </div>

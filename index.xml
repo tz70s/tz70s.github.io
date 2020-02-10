@@ -29,7 +29,7 @@ Kaleidoscope Kaleidoscope 是 LLVM Tutorial 的語言，有各種版本，那我
       <pubDate>Tue, 14 May 2019 00:00:00 +0000</pubDate>
       
       <guid>https://tz70s.github.io/drafts/hacking-moderate-size-oss-compiler/</guid>
-      <description>Compiler is a well-known complex software to build, but also plays a significant role on computer science history and attracts many programmers to explore the mystery. Both of theory foundation and engineering of compiler construction is hard, and I&#39;m not an expert (even not a compiler engineer) at all. However, in this post, I would like to show my experience to hacking PureScript compiler.
+      <description>Compiler is a well-known complex software to build, but also plays a significant role on computer science history and attracts many programmers to explore the mystery. Both of theory foundation and engineering of compiler construction is hard, and I&amp;rsquo;m not an expert (even not a compiler engineer) at all. However, in this post, I would like to show my experience to hacking PureScript compiler.
 Strictly speaking, this is a transpiler instead of machine code generation.</description>
     </item>
     
@@ -95,8 +95,8 @@ Hadoop Homebrew 安裝 hadoop 起來我覺得蠻 stable 的，版本也沒問題
       <pubDate>Mon, 13 Aug 2018 00:00:00 +0000</pubDate>
       
       <guid>https://tz70s.github.io/posts/gsoc-2018/</guid>
-      <description>This is a post to identify what I&#39;ve done in Google Summer of Code 2018. It&#39;s summarized in brief and non-technical, you can refer to more detail in the following links.
-Links to what I&#39;ve done:
+      <description>This is a post to identify what I&amp;rsquo;ve done in Google Summer of Code 2018. It&amp;rsquo;s summarized in brief and non-technical, you can refer to more detail in the following links.
+Links to what I&amp;rsquo;ve done:
  In-detail post about OpenWhisk performance improvement experiment. Main repo/branch for experiment. Invoker agent repo/branch for experiment. Extended multi-actions wrk peformance bench. Commits on OpenWhisk main repo during GSoC progress.  The Journey At first, my original GSoC proposal: OpenWhisk performance improvement - work stealing, priority-based scheduling on load balancer and direct connection for streaming capabilities.</description>
     </item>
     
@@ -106,7 +106,7 @@ Links to what I&#39;ve done:
       <pubDate>Tue, 24 Jul 2018 00:00:00 +0000</pubDate>
       
       <guid>https://tz70s.github.io/posts/openwhisk-performance-improvement/</guid>
-      <description>OpenWhisk community is nowadays getting more consistent on the new design of architecture for performance improvement. The future architecture of OpenWhisk requires large internal breaking changes. To fill the gap from idea into smooth migration, there might be helpful if a mid ground exist to clear more issues. Hence, I&#39;ve worked on prototyping performance improvement in real, but not that comprehensive though. However, hope this prototype hold a place for deeper discussion and discover all issues might meet in the future.</description>
+      <description>OpenWhisk community is nowadays getting more consistent on the new design of architecture for performance improvement. The future architecture of OpenWhisk requires large internal breaking changes. To fill the gap from idea into smooth migration, there might be helpful if a mid ground exist to clear more issues. Hence, I&amp;rsquo;ve worked on prototyping performance improvement in real, but not that comprehensive though. However, hope this prototype hold a place for deeper discussion and discover all issues might meet in the future.</description>
     </item>
     
     <item>
@@ -117,7 +117,7 @@ Links to what I&#39;ve done:
       <guid>https://tz70s.github.io/posts/dist-collections/</guid>
       <description>My personal favor distributed system resources.
 The maintenance guideline for these resources is keeping it to be small, concise and efficient when reviewing it in the future.
-Lamport Clock / Vector Clock  COS 418 - Lamport Clock COS 418 - Vector Clock  </description>
+Lamport Clock / Vector Clock  COS 418 - Lamport Clock COS 418 - Vector Clock  Consistency Models  Consistency  </description>
     </item>
     
     <item>
