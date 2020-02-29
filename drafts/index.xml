@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Drafts on tz70s</title>
-    <link>http://localhost:1313/drafts/</link>
+    <link>https://tz70s.github.io/drafts/</link>
     <description>Recent content in Drafts on tz70s</description>
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Wed, 29 May 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://localhost:1313/drafts/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://tz70s.github.io/drafts/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Play LLVM with Haskell</title>
-      <link>http://localhost:1313/drafts/play-llvm-with-haskell/</link>
+      <link>https://tz70s.github.io/drafts/play-llvm-with-haskell/</link>
       <pubDate>Wed, 29 May 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/drafts/play-llvm-with-haskell/</guid>
+      <guid>https://tz70s.github.io/drafts/play-llvm-with-haskell/</guid>
       <description>最近玩了一下 Haskell 的 LLVM binding，對照著這強烈推薦精美的 Post 來實作， 覺得蠻有趣。只不過雖然這篇文章寫的精巧又完整，但內容有點過時，例如類型錯誤、以及使用低抽象的 binding APIs，所以我大致紀錄一下我修改過的版本。
 Setup 我使用的 Haskell 版本是 GHC 8.6.5，然後 LLVM 的相依我是直接用 Homebrew 裝， 雖然我本身已經有用 Homebrew 裝 LLVM 了，但 llvm-hs 有提供一個加版本號的 formula，自動幫你 build dynamic library， 適用懶人也沒遇到什麼衝突的問題。但這有一個問題就是有點過肥，所以最好還是乖乖改一下 formula 或是自己 cmake build 一下。可以參考一下完整的指令。
 剩下就是把 dependency 拉一拉：
@@ -25,20 +25,20 @@ Kaleidoscope Kaleidoscope 是 LLVM Tutorial 的語言，有各種版本，那我
     
     <item>
       <title>Hacking a Moderate Size OSS Compiler</title>
-      <link>http://localhost:1313/drafts/hacking-moderate-size-oss-compiler/</link>
+      <link>https://tz70s.github.io/drafts/hacking-moderate-size-oss-compiler/</link>
       <pubDate>Tue, 14 May 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/drafts/hacking-moderate-size-oss-compiler/</guid>
+      <guid>https://tz70s.github.io/drafts/hacking-moderate-size-oss-compiler/</guid>
       <description>Compiler is a well-known complex software to build, but also plays a significant role on computer science history and attracts many programmers to explore the mystery. Both of theory foundation and engineering of compiler construction is hard, and I&amp;rsquo;m not an expert (even not a compiler engineer) at all. However, in this post, I would like to show my experience to hacking PureScript compiler.
 Strictly speaking, this is a transpiler instead of machine code generation.</description>
     </item>
     
     <item>
       <title>Note on Algebraic Domain Modeling</title>
-      <link>http://localhost:1313/drafts/algebraic-domain-modeling/</link>
+      <link>https://tz70s.github.io/drafts/algebraic-domain-modeling/</link>
       <pubDate>Mon, 18 Feb 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/drafts/algebraic-domain-modeling/</guid>
+      <guid>https://tz70s.github.io/drafts/algebraic-domain-modeling/</guid>
       <description>Algebra? Algebraic 這個詞以中譯來講就是&amp;quot;代數(的)&amp;quot;，以前一直沒有認真理解這個形容詞帶給 application/business level 的關聯性以及跟一些 functional programming 裡設計的連貫性， 直到最近看了幾篇文章 [1][2] 和 haskell from the first principle 有點感悟所以在這紀錄一下。
 先從 ADT (algebraic data type) 開始，現在一些新興語言 (Rust, Kotlin, Swift) 都有將 ADT 內建在 language 中，很大原因都是為了導入 Option, Result (rust) 這些類型來解決工業上的痛點。 然而，ADT 除了與 ADT (abstract data type) 不同、可以搭配 pattern matching 以外，到底代表什麼？
 Abstract algebra (抽象代數)，是在 generalize 一些代數上的數學關係，例如我們常見的數值運算 (1 + 1)，只是用符號來研讀而已，這在離散數學後面的章節有教裡面的一些部分。 而我們在這會看到的就是 algebraic structure，來看一下 wiki 上的定義：
@@ -47,10 +47,10 @@ Abstract algebra (抽象代數)，是在 generalize 一些代數上的數學關�
     
     <item>
       <title>Replication Short Note</title>
-      <link>http://localhost:1313/drafts/replication-short-note/</link>
+      <link>https://tz70s.github.io/drafts/replication-short-note/</link>
       <pubDate>Fri, 07 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/drafts/replication-short-note/</guid>
+      <guid>https://tz70s.github.io/drafts/replication-short-note/</guid>
       <description>This is a short note for replication on distributed system.
 The content is only noting replication mechanism and any sort of consistency problems, but without introducing comprehensive strong/eventual consistency &amp;amp; conflict resolution mechanism.
 Can refer to the book Designing Data-Intensive Application for more details.
