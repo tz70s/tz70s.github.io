@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title> Replication Short Note &middot; tz70s </title>
+
+
+<link rel="stylesheet" href="http://localhost:1313/css/slim.css">
+<link rel="stylesheet" href="http://localhost:1313/css/github-gist.css">
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Source+Code+Pro' rel='stylesheet'
+  type='text/css'>
+
+
+<link href="" rel="alternate" type="application/rss+xml" title="tz70s" />
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+    <div class="site-title"><a href="http://localhost:1313/">tz70s</a>  <a class="sub-site-title" href="https://github.com/tz70s">Github</a>   <a class="sub-site-title" href="https://twitter.com/tz70s">Twitter</a>          <a class="sub-site-title" href="https://linkedin.com/in/tzu-chiao-yeh-193697103">LinkedIn</a> 
+    </div>
+    <p class="site-tagline">Distributed Systems, Databases and APIs.</p>
+</div>
+    <div class="content">
+      <div class="post">
+        <h2 class="post-title"><a href="http://localhost:1313/drafts/replication-short-note/">Replication Short Note</a></h2>
+        <div class="post-content">
+          <p>This is a short note for replication on distributed system.</p>
+<p>The content is only noting replication mechanism and any sort of consistency problems,
+but without introducing comprehensive strong/eventual consistency &amp; conflict resolution mechanism.</p>
+<p>Can refer to the book Designing Data-Intensive Application for more details.</p>
+<p>The consistency models/guarantees can refer to <a href="https://jepsen.io/consistency">this site</a>.</p>
+<h2 id="system-model">System Model</h2>
+<p>Before understanding any circumstances/problems occurred in replication, we need to clearly identify the system models we&rsquo;re using, and actually following three types cover all possibilities in distributed system world.</p>
+<ul>
+<li>
+<p><strong>Master-Slave Architecture</strong>: master-slave architecture is the most widely used architecture (and can be extended to further stronger model), including MySQL, etc., the master is responsible for writing data, and user can choose to read data from master or slaves. The replication mechanism is basically synchronizing data from master to slaves.</p>
+</li>
+<li>
+<p><strong>Multi-Masters Architecture</strong>: multi-masters architecture in general is built for serving system/data geographically, for reducing latencies and also providing disaster handling if any data centers is broken, e.g. CouchDB, etc. Each master can accept writes, and they all have regional slaves for read, the synchronizations between them are typically expensive due to the high network cost (and also unreliable).</p>
+</li>
+<li>
+<p><strong>Decentralized Architecture</strong>:</p>
+</li>
+</ul>
+<h2 id="types-of-replications">Types of Replications</h2>
+<p>Consider Client C perform a write to any backend data system, when should the backend data system responding back to client if a write success or not?</p>
+<ul>
+<li>
+<p><strong>Synchronous Replication</strong>: respond to client when all replication are writing into slaves, via acks from slaves.</p>
+</li>
+<li>
+<p><strong>Asynchronous Replication</strong>: respond to client when master perform the write, but without waiting replication to slaves.</p>
+</li>
+<li>
+<p><strong>Semi-Synchronous Replication</strong>: respond to client when master perform the write, but ensuring part of slaves have done the write, part of slaves haven&rsquo;t. This is useful when you need to ensure part of slaves can be handover when master crashed without any lags.</p>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+  
+  <p>Tzu-Chiao Yeh { @tz70s, su3g4284zo6y7@gmail.com }</p>
+  
+</div>
+
+  </div>
+  <script src="http://localhost:1313/js/slim.js"></script>
+  
+
+</body>
+
+</html>

@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on tz70s</title>
-    <link>https://tz70s.github.io/posts/</link>
+    <link>http://localhost:1313/posts/</link>
     <description>Recent content in Posts on tz70s</description>
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Tue, 12 Feb 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://tz70s.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Reactive Programming - Revisiting Abstraction</title>
-      <link>https://tz70s.github.io/posts/reactive-programming/</link>
+      <link>http://localhost:1313/posts/reactive-programming/</link>
       <pubDate>Tue, 12 Feb 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://tz70s.github.io/posts/reactive-programming/</guid>
+      <guid>http://localhost:1313/posts/reactive-programming/</guid>
       <description>Reactive Programming 在現代基於事件驅動程式設計及架構來講，根本上來講以去除副作用 (side-effect) 的 declarative 方式來建構事件的轉換及組合，可以有效降低在 concurrency 下的錯誤和增強組合性 (composability)。這衍伸在工業界如 ReactiveX (RxJava, RxJS, etc)、Reactive Stream Specification 或是如 Future 的建構都有其影子。
 然而，他的定義從各個出處仍十分模糊且難以讓人理解，例如：
  Reactive Programming is a programming with asynchronous data stream. [1] Reactive programming is a declarative programming paradigm concerned with data streams and the propagation of change. [2] Reactive programming is a programming paradigm that is built around the notion of continuous time-varying values and propagation of change. [3]  在加上網路上基於各種感悟和體會的文章衍伸的不嚴謹考究，讓 Reactive Programming 逐漸成為 buzzword。</description>
@@ -23,10 +23,10 @@
     
     <item>
       <title>Note - MBrace: Cloud Computing with Monads</title>
-      <link>https://tz70s.github.io/posts/mbrace/</link>
+      <link>http://localhost:1313/posts/mbrace/</link>
       <pubDate>Fri, 07 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://tz70s.github.io/posts/mbrace/</guid>
+      <guid>http://localhost:1313/posts/mbrace/</guid>
       <description>Programming large-scale distributed systems is difficult and requires expert programmers orchestrating concurrent processes across various physical places (nodes), and potentially required to be scalable, resilient, etc. Choosing a well abstraction framework can reduce such efforts and make system performant and resilient.
 For example,
  MapReduce Akka CloudHaskell[1] and HdpH[2]  However, problematics on MapReduce model: less expressive and not suitable for streaming, iterative and incremental algorithms. (NOTE: the motivation is less persuasive, IMHO)</description>
@@ -34,10 +34,10 @@ For example,
     
     <item>
       <title>Local Mac OSX Setup for Engineering Data</title>
-      <link>https://tz70s.github.io/posts/local-mac-setup-for-data-engineering/</link>
+      <link>http://localhost:1313/posts/local-mac-setup-for-data-engineering/</link>
       <pubDate>Mon, 20 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://tz70s.github.io/posts/local-mac-setup-for-data-engineering/</guid>
+      <guid>http://localhost:1313/posts/local-mac-setup-for-data-engineering/</guid>
       <description>紀錄本地端 Mac 對 Hadoop Ecosystem 相關開發的設定。
 Hadoop Homebrew 安裝 hadoop 起來我覺得蠻 stable 的，版本也沒問題，以本地開發來講算足夠了。
 以 brew 安裝後，會有安裝的 location 和方便使用的 script (start-all.sh) 的位置是需要 tuning 的，基本上設定為 Pseudo Distributed 的模式。
@@ -47,10 +47,10 @@ Hadoop Homebrew 安裝 hadoop 起來我覺得蠻 stable 的，版本也沒問題
     
     <item>
       <title>Google Summer of Code</title>
-      <link>https://tz70s.github.io/posts/gsoc-2018/</link>
+      <link>http://localhost:1313/posts/gsoc-2018/</link>
       <pubDate>Mon, 13 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://tz70s.github.io/posts/gsoc-2018/</guid>
+      <guid>http://localhost:1313/posts/gsoc-2018/</guid>
       <description>This is a post to identify what I&amp;rsquo;ve done in Google Summer of Code 2018. It&amp;rsquo;s summarized in brief and non-technical, you can refer to more detail in the following links.
 Links to what I&amp;rsquo;ve done:
  In-detail post about OpenWhisk performance improvement experiment. Main repo/branch for experiment. Invoker agent repo/branch for experiment. Extended multi-actions wrk peformance bench. Commits on OpenWhisk main repo during GSoC progress.  The Journey At first, my original GSoC proposal: OpenWhisk performance improvement - work stealing, priority-based scheduling on load balancer and direct connection for streaming capabilities.</description>
@@ -58,19 +58,19 @@ Links to what I&amp;rsquo;ve done:
     
     <item>
       <title>OpenWhisk Performance Improvement</title>
-      <link>https://tz70s.github.io/posts/openwhisk-performance-improvement/</link>
+      <link>http://localhost:1313/posts/openwhisk-performance-improvement/</link>
       <pubDate>Tue, 24 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://tz70s.github.io/posts/openwhisk-performance-improvement/</guid>
+      <guid>http://localhost:1313/posts/openwhisk-performance-improvement/</guid>
       <description>OpenWhisk community is nowadays getting more consistent on the new design of architecture for performance improvement. The future architecture of OpenWhisk requires large internal breaking changes. To fill the gap from idea into smooth migration, there might be helpful if a mid ground exist to clear more issues. Hence, I&amp;rsquo;ve worked on prototyping performance improvement in real, but not that comprehensive though. However, hope this prototype hold a place for deeper discussion and discover all issues might meet in the future.</description>
     </item>
     
     <item>
       <title>Distributed System Collections</title>
-      <link>https://tz70s.github.io/posts/dist-collections/</link>
+      <link>http://localhost:1313/posts/dist-collections/</link>
       <pubDate>Fri, 01 Jun 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://tz70s.github.io/posts/dist-collections/</guid>
+      <guid>http://localhost:1313/posts/dist-collections/</guid>
       <description>My personal favor distributed system resources.
 The maintenance guideline for these resources is keeping it to be small, concise and efficient when reviewing it in the future.
 Lamport Clock / Vector Clock  COS 418 - Lamport Clock COS 418 - Vector Clock  Consistency Models  Consistency  </description>
@@ -78,10 +78,10 @@ Lamport Clock / Vector Clock  COS 418 - Lamport Clock COS 418 - Vector Clock  Co
     
     <item>
       <title>Distributed Systems for Fun and Profit</title>
-      <link>https://tz70s.github.io/posts/distributed-systems-for-fun-and-profit/</link>
+      <link>http://localhost:1313/posts/distributed-systems-for-fun-and-profit/</link>
       <pubDate>Wed, 07 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://tz70s.github.io/posts/distributed-systems-for-fun-and-profit/</guid>
+      <guid>http://localhost:1313/posts/distributed-systems-for-fun-and-profit/</guid>
       <description>Distributed Systems for Fun and Profit 是本分散式系統的書，短小精悍目標是涵蓋所有分散式系統的概念和點出一些關鍵的演算法，然後這是我的筆記。
 Basics 基本電腦系統可以分為兩種 task 需要去完成
  storage computation  分散式系統的目標是要解決當我們系統 scale up 去處理這些 task ，並且而後發生的種種 trade-off。

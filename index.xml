@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>tz70s</title>
-    <link>https://tz70s.github.io/</link>
+    <link>http://localhost:1313/</link>
     <description>Recent content on tz70s</description>
     <generator>Hugo -- gohugo.io</generator>
     <lastBuildDate>Wed, 29 May 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://tz70s.github.io/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Play LLVM with Haskell</title>
-      <link>https://tz70s.github.io/drafts/play-llvm-with-haskell/</link>
+      <link>http://localhost:1313/drafts/play-llvm-with-haskell/</link>
       <pubDate>Wed, 29 May 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://tz70s.github.io/drafts/play-llvm-with-haskell/</guid>
+      <guid>http://localhost:1313/drafts/play-llvm-with-haskell/</guid>
       <description>最近玩了一下 Haskell 的 LLVM binding，對照著這強烈推薦精美的 Post 來實作， 覺得蠻有趣。只不過雖然這篇文章寫的精巧又完整，但內容有點過時，例如類型錯誤、以及使用低抽象的 binding APIs，所以我大致紀錄一下我修改過的版本。
 Setup 我使用的 Haskell 版本是 GHC 8.6.5，然後 LLVM 的相依我是直接用 Homebrew 裝， 雖然我本身已經有用 Homebrew 裝 LLVM 了，但 llvm-hs 有提供一個加版本號的 formula，自動幫你 build dynamic library， 適用懶人也沒遇到什麼衝突的問題。但這有一個問題就是有點過肥，所以最好還是乖乖改一下 formula 或是自己 cmake build 一下。可以參考一下完整的指令。
 剩下就是把 dependency 拉一拉：
@@ -25,20 +25,20 @@ Kaleidoscope Kaleidoscope 是 LLVM Tutorial 的語言，有各種版本，那我
     
     <item>
       <title>Hacking a Moderate Size OSS Compiler</title>
-      <link>https://tz70s.github.io/drafts/hacking-moderate-size-oss-compiler/</link>
+      <link>http://localhost:1313/drafts/hacking-moderate-size-oss-compiler/</link>
       <pubDate>Tue, 14 May 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://tz70s.github.io/drafts/hacking-moderate-size-oss-compiler/</guid>
+      <guid>http://localhost:1313/drafts/hacking-moderate-size-oss-compiler/</guid>
       <description>Compiler is a well-known complex software to build, but also plays a significant role on computer science history and attracts many programmers to explore the mystery. Both of theory foundation and engineering of compiler construction is hard, and I&amp;rsquo;m not an expert (even not a compiler engineer) at all. However, in this post, I would like to show my experience to hacking PureScript compiler.
 Strictly speaking, this is a transpiler instead of machine code generation.</description>
     </item>
     
     <item>
       <title>Note on Algebraic Domain Modeling</title>
-      <link>https://tz70s.github.io/drafts/algebraic-domain-modeling/</link>
+      <link>http://localhost:1313/drafts/algebraic-domain-modeling/</link>
       <pubDate>Mon, 18 Feb 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://tz70s.github.io/drafts/algebraic-domain-modeling/</guid>
+      <guid>http://localhost:1313/drafts/algebraic-domain-modeling/</guid>
       <description>Algebra? Algebraic 這個詞以中譯來講就是&amp;quot;代數(的)&amp;quot;，以前一直沒有認真理解這個形容詞帶給 application/business level 的關聯性以及跟一些 functional programming 裡設計的連貫性， 直到最近看了幾篇文章 [1][2] 和 haskell from the first principle 有點感悟所以在這紀錄一下。
 先從 ADT (algebraic data type) 開始，現在一些新興語言 (Rust, Kotlin, Swift) 都有將 ADT 內建在 language 中，很大原因都是為了導入 Option, Result (rust) 這些類型來解決工業上的痛點。 然而，ADT 除了與 ADT (abstract data type) 不同、可以搭配 pattern matching 以外，到底代表什麼？
 Abstract algebra (抽象代數)，是在 generalize 一些代數上的數學關係，例如我們常見的數值運算 (1 + 1)，只是用符號來研讀而已，這在離散數學後面的章節有教裡面的一些部分。 而我們在這會看到的就是 algebraic structure，來看一下 wiki 上的定義：
@@ -47,41 +47,45 @@ Abstract algebra (抽象代數)，是在 generalize 一些代數上的數學關�
     
     <item>
       <title>Reactive Programming - Revisiting Abstraction</title>
-      <link>https://tz70s.github.io/posts/reactive-programming/</link>
+      <link>http://localhost:1313/posts/reactive-programming/</link>
       <pubDate>Tue, 12 Feb 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://tz70s.github.io/posts/reactive-programming/</guid>
+      <guid>http://localhost:1313/posts/reactive-programming/</guid>
       <description>Reactive Programming 在現代基於事件驅動程式設計及架構來講，根本上來講以去除副作用 (side-effect) 的 declarative 方式來建構事件的轉換及組合，可以有效降低在 concurrency 下的錯誤和增強組合性 (composability)。這衍伸在工業界如 ReactiveX (RxJava, RxJS, etc)、Reactive Stream Specification 或是如 Future 的建構都有其影子。
 然而，他的定義從各個出處仍十分模糊且難以讓人理解，例如：
  Reactive Programming is a programming with asynchronous data stream. [1] Reactive programming is a declarative programming paradigm concerned with data streams and the propagation of change. [2] Reactive programming is a programming paradigm that is built around the notion of continuous time-varying values and propagation of change. [3]  在加上網路上基於各種感悟和體會的文章衍伸的不嚴謹考究，讓 Reactive Programming 逐漸成為 buzzword。</description>
     </item>
     
     <item>
-      <title>Note - Designing Data-Intensive Applications, Storage Engine</title>
-      <link>https://tz70s.github.io/drafts/notes-on-ddia-storage-engine/</link>
-      <pubDate>Thu, 11 Oct 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://tz70s.github.io/drafts/notes-on-ddia-storage-engine/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>Note - MBrace: Cloud Computing with Monads</title>
-      <link>https://tz70s.github.io/posts/mbrace/</link>
+      <link>http://localhost:1313/posts/mbrace/</link>
       <pubDate>Fri, 07 Sep 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://tz70s.github.io/posts/mbrace/</guid>
+      <guid>http://localhost:1313/posts/mbrace/</guid>
       <description>Programming large-scale distributed systems is difficult and requires expert programmers orchestrating concurrent processes across various physical places (nodes), and potentially required to be scalable, resilient, etc. Choosing a well abstraction framework can reduce such efforts and make system performant and resilient.
 For example,
  MapReduce Akka CloudHaskell[1] and HdpH[2]  However, problematics on MapReduce model: less expressive and not suitable for streaming, iterative and incremental algorithms. (NOTE: the motivation is less persuasive, IMHO)</description>
     </item>
     
     <item>
+      <title>Replication Short Note</title>
+      <link>http://localhost:1313/drafts/replication-short-note/</link>
+      <pubDate>Fri, 07 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/drafts/replication-short-note/</guid>
+      <description>This is a short note for replication on distributed system.
+The content is only noting replication mechanism and any sort of consistency problems, but without introducing comprehensive strong/eventual consistency &amp;amp; conflict resolution mechanism.
+Can refer to the book Designing Data-Intensive Application for more details.
+The consistency models/guarantees can refer to this site.
+System Model Before understanding any circumstances/problems occurred in replication, we need to clearly identify the system models we&amp;rsquo;re using, and actually following three types cover all possibilities in distributed system world.</description>
+    </item>
+    
+    <item>
       <title>Local Mac OSX Setup for Engineering Data</title>
-      <link>https://tz70s.github.io/posts/local-mac-setup-for-data-engineering/</link>
+      <link>http://localhost:1313/posts/local-mac-setup-for-data-engineering/</link>
       <pubDate>Mon, 20 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://tz70s.github.io/posts/local-mac-setup-for-data-engineering/</guid>
+      <guid>http://localhost:1313/posts/local-mac-setup-for-data-engineering/</guid>
       <description>紀錄本地端 Mac 對 Hadoop Ecosystem 相關開發的設定。
 Hadoop Homebrew 安裝 hadoop 起來我覺得蠻 stable 的，版本也沒問題，以本地開發來講算足夠了。
 以 brew 安裝後，會有安裝的 location 和方便使用的 script (start-all.sh) 的位置是需要 tuning 的，基本上設定為 Pseudo Distributed 的模式。
@@ -91,10 +95,10 @@ Hadoop Homebrew 安裝 hadoop 起來我覺得蠻 stable 的，版本也沒問題
     
     <item>
       <title>Google Summer of Code</title>
-      <link>https://tz70s.github.io/posts/gsoc-2018/</link>
+      <link>http://localhost:1313/posts/gsoc-2018/</link>
       <pubDate>Mon, 13 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://tz70s.github.io/posts/gsoc-2018/</guid>
+      <guid>http://localhost:1313/posts/gsoc-2018/</guid>
       <description>This is a post to identify what I&amp;rsquo;ve done in Google Summer of Code 2018. It&amp;rsquo;s summarized in brief and non-technical, you can refer to more detail in the following links.
 Links to what I&amp;rsquo;ve done:
  In-detail post about OpenWhisk performance improvement experiment. Main repo/branch for experiment. Invoker agent repo/branch for experiment. Extended multi-actions wrk peformance bench. Commits on OpenWhisk main repo during GSoC progress.  The Journey At first, my original GSoC proposal: OpenWhisk performance improvement - work stealing, priority-based scheduling on load balancer and direct connection for streaming capabilities.</description>
@@ -102,19 +106,19 @@ Links to what I&amp;rsquo;ve done:
     
     <item>
       <title>OpenWhisk Performance Improvement</title>
-      <link>https://tz70s.github.io/posts/openwhisk-performance-improvement/</link>
+      <link>http://localhost:1313/posts/openwhisk-performance-improvement/</link>
       <pubDate>Tue, 24 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://tz70s.github.io/posts/openwhisk-performance-improvement/</guid>
+      <guid>http://localhost:1313/posts/openwhisk-performance-improvement/</guid>
       <description>OpenWhisk community is nowadays getting more consistent on the new design of architecture for performance improvement. The future architecture of OpenWhisk requires large internal breaking changes. To fill the gap from idea into smooth migration, there might be helpful if a mid ground exist to clear more issues. Hence, I&amp;rsquo;ve worked on prototyping performance improvement in real, but not that comprehensive though. However, hope this prototype hold a place for deeper discussion and discover all issues might meet in the future.</description>
     </item>
     
     <item>
       <title>Distributed System Collections</title>
-      <link>https://tz70s.github.io/posts/dist-collections/</link>
+      <link>http://localhost:1313/posts/dist-collections/</link>
       <pubDate>Fri, 01 Jun 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://tz70s.github.io/posts/dist-collections/</guid>
+      <guid>http://localhost:1313/posts/dist-collections/</guid>
       <description>My personal favor distributed system resources.
 The maintenance guideline for these resources is keeping it to be small, concise and efficient when reviewing it in the future.
 Lamport Clock / Vector Clock  COS 418 - Lamport Clock COS 418 - Vector Clock  Consistency Models  Consistency  </description>
@@ -122,10 +126,10 @@ Lamport Clock / Vector Clock  COS 418 - Lamport Clock COS 418 - Vector Clock  Co
     
     <item>
       <title>Distributed Systems for Fun and Profit</title>
-      <link>https://tz70s.github.io/posts/distributed-systems-for-fun-and-profit/</link>
+      <link>http://localhost:1313/posts/distributed-systems-for-fun-and-profit/</link>
       <pubDate>Wed, 07 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://tz70s.github.io/posts/distributed-systems-for-fun-and-profit/</guid>
+      <guid>http://localhost:1313/posts/distributed-systems-for-fun-and-profit/</guid>
       <description>Distributed Systems for Fun and Profit 是本分散式系統的書，短小精悍目標是涵蓋所有分散式系統的概念和點出一些關鍵的演算法，然後這是我的筆記。
 Basics 基本電腦系統可以分為兩種 task 需要去完成
  storage computation  分散式系統的目標是要解決當我們系統 scale up 去處理這些 task ，並且而後發生的種種 trade-off。
@@ -136,10 +140,10 @@ Performance (and latency)  is characterized by the amount of useful work accompl
     
     <item>
       <title>About me</title>
-      <link>https://tz70s.github.io/about/</link>
+      <link>http://localhost:1313/about/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://tz70s.github.io/about/</guid>
+      <guid>http://localhost:1313/about/</guid>
       <description>Hacking distributed system.
 Interests  Distributed system. Distributed and concurrent programming models.  Skills  Programming Languages: Scala, Java, C/C++, Rust, Go, Javascript(Node).  Status Pursuing master degree in National Taiwan University; research topic on programming model and system runtime in Edge Computing.</description>
     </item>
