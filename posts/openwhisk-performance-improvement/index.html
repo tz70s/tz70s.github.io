@@ -8,7 +8,7 @@
 
 
 <link rel="stylesheet" href="https://tz70s.github.io/css/slim.css">
-<link rel="stylesheet" href="https://tz70s.github.io/css/github-gist.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github-gist.min.css">
 <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Source+Code+Pro' rel='stylesheet'
   type='text/css'>
 
@@ -21,7 +21,7 @@
         <div class="header">
     <div class="site-title"><a href="https://tz70s.github.io/">tz70s</a>  <a class="sub-site-title" href="https://github.com/tz70s">Github</a>   <a class="sub-site-title" href="https://twitter.com/tz70s">Twitter</a>          <a class="sub-site-title" href="https://linkedin.com/in/tzu-chiao-yeh-193697103">LinkedIn</a> 
     </div>
-    <p class="site-tagline">Distributed Systems, Databases and APIs.</p>
+    <p class="site-tagline">About distributed system, programming and system level stuff.</p>
 </div>
         <div class="content">
             <div class="posts">
@@ -223,7 +223,7 @@ Contrast to indirectly calls in Kubernetes, in the native way, we&rsquo;ll have 
 <p>Note that I&rsquo;ve tried many times, the results are similar.</p>
 <h2 id="current-architecture-1-action">Current architecture: 1 action</h2>
 <p>As you can see, the resources are definitely overloaded. Note that it&rsquo;s not an accurate <strong>average</strong> latency under normal throttling.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#ae81ff">4</span> threads and <span style="color:#ae81ff">10</span> connections
+<pre><code class="language-bash">4 threads and 10 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
     Latency   205.85ms  255.04ms   4.08s    85.18%
     Req/Sec    16.89     10.71    60.00     64.42%
@@ -232,12 +232,13 @@ Contrast to indirectly calls in Kubernetes, in the native way, we&rsquo;ll have 
      75%  302.75ms
      90%  547.36ms
      99%  991.84ms
-  <span style="color:#ae81ff">15938</span> requests in 5.00m, 11.90MB read
+  15938 requests in 5.00m, 11.90MB read
 Requests/sec:     53.11
 Transfer/sec:     40.59KB
-</code></pre></div><h2 id="current-architecture-4-actions">Current architecture: 4 actions</h2>
+</code></pre>
+<h2 id="current-architecture-4-actions">Current architecture: 4 actions</h2>
 <p>The benchamrk result is definitely meaningless, it&rsquo;s heavily overloaded to run 4 actions. But the main reason leads to poor performance on 4 actions we already knows is the problem on no visiblity between Invokers. In addition, I&rsquo;ve found that there are easily causing failure starting from clean system, therefore, I&rsquo;ve post a pure start and a re-run result.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#ae81ff">4</span> threads and <span style="color:#ae81ff">40</span> connections
+<pre><code class="language-bash">4 threads and 40 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
     Latency     5.87s     2.69s    9.59s    64.52%
     Req/Sec     0.83      1.99    10.00     89.67%
@@ -246,11 +247,12 @@ Transfer/sec:     40.59KB
      75%    8.11s
      90%    8.89s
      99%    9.59s
-  <span style="color:#ae81ff">323</span> requests in 5.00m, 247.36KB read
-  Socket errors: connect 88542, read 0, write 0, timeout <span style="color:#ae81ff">292</span>
+  323 requests in 5.00m, 247.36KB read
+  Socket errors: connect 88542, read 0, write 0, timeout 292
 Requests/sec:      1.08
 Transfer/sec:     844.07B
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#ae81ff">4</span> threads and <span style="color:#ae81ff">10</span> connections
+</code></pre>
+<pre><code class="language-bash">4 threads and 10 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
     Latency     1.38s     1.87s    9.79s    82.91%
     Req/Sec     6.73      5.87    48.00     82.41%
@@ -259,15 +261,16 @@ Transfer/sec:     844.07B
      75%    2.11s
      90%    4.38s
      99%    7.45s
-  <span style="color:#ae81ff">3260</span> requests in 5.00m, 2.45MB read
-  Socket errors: connect 0, read 0, write 0, timeout <span style="color:#ae81ff">2</span>
+  3260 requests in 5.00m, 2.45MB read
+  Socket errors: connect 0, read 0, write 0, timeout 2
 Requests/sec:     10.86
 Transfer/sec:      8.36KB
-</code></pre></div><p>Video records for observation:</p>
+</code></pre>
+<p>Video records for observation:</p>
 <h2 id="new-architecture-1-actions">New architecture: 1 actions</h2>
 <p>In the new architecture, for 1 action, I think it&rsquo;s arbitrary to say that it has greater performance, because of lacks of plenty functionalities (no logs collection, no ssl termination, etc). Please keep doubt to this estimated result. Note that you can see that there are some Non-2xx or 3xx responses, they are system rejection for overloaded, for early failure from scheduler, if all pools are in busy.</p>
 <p>I&rsquo;ve also found pause/resume bug during high load, I&rsquo;ll described in the issue section at the bottom.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#ae81ff">4</span> threads and <span style="color:#ae81ff">10</span> connections
+<pre><code class="language-bash">4 threads and 10 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
     Latency    11.37ms   50.32ms   1.02s    98.91%
     Req/Sec   131.36     48.86   232.00     64.19%
@@ -276,14 +279,15 @@ Transfer/sec:      8.36KB
      75%    8.63ms
      90%   10.77ms
      99%   66.42ms
-  <span style="color:#ae81ff">51199</span> requests in 5.00m, 28.66MB read
-  Socket errors: connect 0, read 0, write 0, timeout <span style="color:#ae81ff">27</span>
-  Non-2xx or 3xx responses: <span style="color:#ae81ff">27</span>
+  51199 requests in 5.00m, 28.66MB read
+  Socket errors: connect 0, read 0, write 0, timeout 27
+  Non-2xx or 3xx responses: 27
 Requests/sec:    170.62
 Transfer/sec:     97.80KB
-</code></pre></div><h2 id="new-architecture-4-actions">New architecture: 4 actions</h2>
+</code></pre>
+<h2 id="new-architecture-4-actions">New architecture: 4 actions</h2>
 <p>As mentioned above, there is a pause/resume bug, therefore, the statistic is not accurate. Discuss below.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#ae81ff">4</span> threads and <span style="color:#ae81ff">40</span> connections
+<pre><code class="language-bash">4 threads and 40 connections
   Thread Stats   Avg      Stdev     Max   +/- Stdev
     Latency   207.64ms  962.41ms   9.98s    95.05%
     Req/Sec    78.16     97.98   390.00     79.54%
@@ -292,12 +296,13 @@ Transfer/sec:     97.80KB
      75%    7.53ms
      90%   43.68ms
      99%    5.62s
-  <span style="color:#ae81ff">8268</span> requests in 5.00m, 4.94MB read
-  Socket errors: connect 0, read 0, write 0, timeout <span style="color:#ae81ff">185</span>
-  Non-2xx or 3xx responses: <span style="color:#ae81ff">3665</span>
+  8268 requests in 5.00m, 4.94MB read
+  Socket errors: connect 0, read 0, write 0, timeout 185
+  Non-2xx or 3xx responses: 3665
 Requests/sec:     27.56
 Transfer/sec:     16.86KB
-</code></pre></div><h2 id="latency">Latency</h2>
+</code></pre>
+<h2 id="latency">Latency</h2>
 <p>I&rsquo;ve used tracing support with Jaegar UI for troubleshooting and latency observation. Jaegar is compatible with Zipkin trace and painless deployment.</p>
 <p>There are some average latency metrics in wrk above, mainly for non-pausing/resuming operations (direct calls), basically under 10ms.</p>
 <p>Here&rsquo;s the tracing result for calls during warmed, but pause/resume. Latency gains for awaiting resuming.</p>
@@ -339,11 +344,11 @@ Transfer/sec:     16.86KB
 </div>
 
     </div>
-    <script src="https://tz70s.github.io/js/slim.js"></script>
-    <script src="https://tz70s.github.io/js/highlight.pack.js"></script>
-    <script>
-        hljs.initHighlightingOnLoad();
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/languages/haskell.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/languages/scala.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/languages/fsharp.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
     
 </body>
 

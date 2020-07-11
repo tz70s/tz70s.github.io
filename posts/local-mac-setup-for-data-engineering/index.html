@@ -8,7 +8,7 @@
 
 
 <link rel="stylesheet" href="https://tz70s.github.io/css/slim.css">
-<link rel="stylesheet" href="https://tz70s.github.io/css/github-gist.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github-gist.min.css">
 <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Source+Code+Pro' rel='stylesheet'
   type='text/css'>
 
@@ -21,7 +21,7 @@
         <div class="header">
     <div class="site-title"><a href="https://tz70s.github.io/">tz70s</a>  <a class="sub-site-title" href="https://github.com/tz70s">Github</a>   <a class="sub-site-title" href="https://twitter.com/tz70s">Twitter</a>          <a class="sub-site-title" href="https://linkedin.com/in/tzu-chiao-yeh-193697103">LinkedIn</a> 
     </div>
-    <p class="site-tagline">Distributed Systems, Databases and APIs.</p>
+    <p class="site-tagline">About distributed system, programming and system level stuff.</p>
 </div>
         <div class="content">
             <div class="posts">
@@ -47,11 +47,12 @@
 <p>Spark 基本上本地開發就直接 Link Library 即可，沒特別需要把 build 好的 package 撈下來，以 test driven 的方式 + interactive SBT 是最佳模式。
 需要注意的點為有些版本 (Scala or JVM) 會不相容，注意一下主線的需求版本。</p>
 <p>另外，Spark Executor 在 SBT 跑完後會出現殺不掉的問題，因為兩個跑在同一個 JVM 上，注意一下將 fork apply 到所有 sbt tasks 中：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-scala" data-lang="scala">fork <span style="color:#66d9ef">:</span><span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>
+<pre><code class="language-scala">fork := true
 
-<span style="color:#75715e">// Or specify some tasks, but not recommended.
-</span><span style="color:#75715e"></span>fork in run <span style="color:#66d9ef">:</span><span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>
-</code></pre></div>
+// Or specify some tasks, but not recommended.
+fork in run := true
+</code></pre>
+
                     </div>
                 </div>
                 <div class="pagination">
@@ -67,11 +68,11 @@
 </div>
 
     </div>
-    <script src="https://tz70s.github.io/js/slim.js"></script>
-    <script src="https://tz70s.github.io/js/highlight.pack.js"></script>
-    <script>
-        hljs.initHighlightingOnLoad();
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/languages/haskell.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/languages/scala.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/languages/fsharp.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
     
 </body>
 
